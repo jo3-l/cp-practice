@@ -8,8 +8,6 @@ public class J5 {
         Scanner scanner = new Scanner(System.in);
 
         TrieNode rootNode = new TrieNode(false, null);
-        // Secondary graph where the substitution rules's final sequence is used as its starting sequence and vice versa.
-        TrieNode reversedRootNode = new TrieNode(false, null);
 
         for (int n = 0; n < 3; n++) {
             String[] parts = scanner.nextLine().split(" ");
@@ -17,10 +15,8 @@ public class J5 {
             String finalSequence = parts[1];
 
             Rule rule = new Rule(originalSequence, finalSequence, n + 1); // Rule number is 1-based.
-            Rule reversedRule = new Rule(finalSequence, originalSequence, n + 1);
 
             TrieNode.linkRuleToNode(rule, rootNode);
-            TrieNode.linkRuleToNode(reversedRule, reversedRootNode);
         }
 
         String[] parts = scanner.nextLine().split(" ");
