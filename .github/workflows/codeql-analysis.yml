@@ -25,7 +25,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
 
       - name: Initialize CodeQL
-        uses: github/codql-action/init@v1
+        uses: github/codeql-action/init@v1
 
       - name: Auto-build
         uses: github/codeql-action/autobuild@v1
