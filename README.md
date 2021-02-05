@@ -1,6 +1,9 @@
 <div align='center'>
 	<h1 align='center'>Canada Computing Competition Practice</h1>
 	<img
+	    src="https://img.shields.io/github/workflow/status/jo3-l/ccc-java/Continuous%20Integration.svg?style=for-the-badge"
+	/>
+	<img
 		src='https://img.shields.io/github/languages/top/jo3-l/ccc-java.svg?style=for-the-badge'
 		alt='Language'
 	/>
