@@ -11,9 +11,7 @@ public class J4 {
         scanner.skip("\n");
         for (int i = 0; i < tableSize; i++) {
             int[] row = table[i];
-            for (int j = 0; j < tableSize; j++) {
-                row[j] = scanner.nextInt();
-            }
+            for (int j = 0; j < tableSize; j++) row[j] = scanner.nextInt();
         }
 
         SortOrder firstRowOrder = inferSortOrder(table[0][0], table[0][1]);
@@ -63,7 +61,11 @@ public class J4 {
                 }
                 return sb.toString();
             case 180:
-                // Input table was flipped horizontally, so just rotate through the rows in reverse order.
+                // 1 2 3         9 8 7
+                // 4 5 6 becomes 6 5 4
+                // 7 8 9         3 2 1
+                //
+                // Reversed 3rd column becomes 1st column, reversed 2nd column becomes 1st column, etc.
                 for (int i = tableSize - 1; i >= 0; i--) {
                     if (i != tableSize - 1) sb.append("\n");
                     int[] row = table[i];
@@ -95,7 +97,7 @@ public class J4 {
     private static SortOrder inferSortOrder(int first, int second) {
         if (first > second) return SortOrder.DSC;
         if (first < second) return SortOrder.ASC;
-        throw new Error("Could not determine sort order as the first element was equal to the second element.");
+        throw new Error("Could not determine the sort order as the first element was equal to the second element.");
     }
 
     private enum SortOrder {
