@@ -23,6 +23,7 @@ public class J3 {
             if (currentY < minY) minY = currentY;
         }
 
+        // -1 and +1 because points on the grid are not technically inside according to the problem specification.
         System.out.printf("%d,%d\n%d,%d", minX - 1, minY - 1, maxX + 1, maxY + 1);
     }
 }

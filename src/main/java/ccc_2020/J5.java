@@ -25,21 +25,19 @@ public class J5 {
                 while (true) {
                     int c = reader.read();
                     switch (c) {
-                        case -1:
-                            row[j] = Integer.parseInt(buffer.toString());
-                            break outer;
                         case ' ':
                         case '\n':
+                        case -1:
                             row[j] = Integer.parseInt(buffer.toString());
                             buffer.setLength(0);
                             continue outer;
                         default:
                             buffer.append((char) c);
+                            break;
                     }
                 }
             }
         }
-        reader.close();
 
         matrix[maxRows - 1][maxColumns - 1] = END_ROOM_TOKEN;
         PathFinder finder = new PathFinder(matrix[0][0], matrix, maxRows, maxColumns);
@@ -84,6 +82,7 @@ public class J5 {
             return false;
         }
 
+        // queueMove queues a move to the square at the given row and column. It returns whether the square was the end square.
         private boolean queueMove(int row, int column) {
             int value = matrix[row][column];
             if (value == END_ROOM_TOKEN) return true;
