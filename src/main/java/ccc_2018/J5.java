@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 public class J5 {
@@ -17,7 +19,8 @@ public class J5 {
         for (int pageNumber = 0; pageNumber < pageCount; pageNumber++) {
             int branchCount = readInt(reader, buffer);
             int[] branches = new int[branchCount];
-            for (int i = 0; i < branchCount; i++) branches[i] = readInt(reader, buffer);
+            // Subtract 1 because the page numbers are 1-based.
+            for (int i = 0; i < branchCount; i++) branches[i] = readInt(reader, buffer) - 1;
 
             // We can always visit the first page; for other pages, we do not have sufficient information to know whether
             // we can visit it yet.
@@ -25,7 +28,8 @@ public class J5 {
             pageData[pageNumber] = branches;
         }
 
-        System.out.println(visitor.canVisitAll() ? "can visit all pages" : "cannot visit all pages");
+        System.out.println(visitor.canVisitAll() ? "Y" : "N");
+        System.out.println(getShortestPath(pageData));
     }
 
     private static int readInt(BufferedReader reader, StringBuilder buffer) throws IOException {
@@ -48,13 +52,40 @@ public class J5 {
         }
     }
 
+    // getShortestPath returns the shortest path a reader can take before they get to the end of a branch, using a breadth
+    // first search internally to traverse the graph efficiently.
+    private static int getShortestPath(int[][] pageData) {
+        Set<Integer> visitedPages = new HashSet<>();
+        Queue<Integer> pageQueue = new LinkedList<>();
+        pageQueue.add(0);
+        visitedPages.add(0);
+
+        int depth = 1;
+        while (!pageQueue.isEmpty()) {
+            int levelSize = pageQueue.size();
+            while (levelSize-- > 0) {
+                int pageNumber = pageQueue.poll();
+                int[] branches = pageData[pageNumber];
+                if (branches.length == 0) return depth;
+                for (int branchPageNumber : branches) {
+                    if (visitedPages.contains(branchPageNumber)) continue;
+                    visitedPages.add(branchPageNumber);
+                    pageQueue.add(branchPageNumber);
+                }
+            }
+            depth++;
+        }
+
+        throw new Error("Could not determine shortest path. This should never happen!");
+    }
+
     private static void consumeLeadingSpaces(BufferedReader reader) throws IOException {
         while (true) {
             reader.mark(1);
             int c = reader.read();
             if (c == '\n' || c == ' ') continue;
 
-            // No more space characters, so acktrack to the position the reader was at before this iteration.
+            // No more space characters, so backtrack to the position the reader was at before this iteration.
             reader.reset();
             break;
         }
@@ -83,11 +114,12 @@ public class J5 {
         public void visitPage(int pageNumber, int[] branches, boolean canNaturallyReach) {
             // If this page number was queued from an earlier call, we can override some checks.
             boolean isQueued = this.visitQueue.contains(pageNumber);
+            if (isQueued) this.visitQueue.remove(pageNumber);
             if ((!canNaturallyReach && !isQueued) || (this.visitedPages.contains(pageNumber) && !isQueued)) return;
             for (int branchPageNumber : branches) {
                 // visitPage is called when pageData may not be fully populated. However, we can be sure that we have the
                 // data for the current page, meaning that all pages with lower page numbers have complete data.
-                if (pageNumber > branchPageNumber) visitPage(pageNumber, pageData[branchPageNumber], true);
+                if (pageNumber > branchPageNumber) visitPage(branchPageNumber, pageData[branchPageNumber], true);
                     // If we don't have the complete data, then add it to the visit queue and wait for it to be called later.
                 else visitQueue.add(branchPageNumber);
 
