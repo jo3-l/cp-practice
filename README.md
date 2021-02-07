@@ -15,6 +15,40 @@ This is a repository to store my solutions to CCC problem sets for past years.<b
 Solutions are written in Java 8 and tested with the CCC online grader.<br>
 It is a sister repository to my [Python 3 solution repository](https://github.com/jo3-l/ccc).
 
+## Status
+**CCC '20**<br>
+[Link to problem set](https://cemc.math.uwaterloo.ca/contests/computing/2020/ccc/juniorEF.pdf)
+
+| Question | Points    |
+| ---------|:-------- :| 
+| J1       | 15/15     | 
+| J2       | 15/15     | 
+| J3       | 15/15     | 
+| J4       | 15/15     | 
+| J5       | 15/15     | 
+
+**CCC '19**<br>
+[Link to problem set](https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/juniorEF.pdf)
+
+| Question | Points    |
+| ---------|:-------- :| 
+| J1       | 15/15     | 
+| J2       | 15/15     | 
+| J3       | 15/15     | 
+| J4       | 15/15     | 
+| J5       | 7/15      | 
+
+**CCC '18**<br>
+[Link to problem set](https://www.cemc.uwaterloo.ca/contests/computing/2018/stage%201/juniorEF.pdf)
+
+| Question | Points    |
+| ---------|:-------- :| 
+| J1       | 15/15     | 
+| J2       | 15/15     | 
+| J3       | 15/15     | 
+| J4       | 15/15     | 
+| J5       | 15/15     | 
+
 ## Author
 
 Unless explicitly stated otherwise, I, Joe L., am the author of all code in this repository.<br>
