@@ -20,7 +20,7 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 [Link to problem set](https://cemc.math.uwaterloo.ca/contests/computing/2020/ccc/juniorEF.pdf)
 
 | Question | Points    |
-| ---------|:-------- :| 
+|----------|-----------| 
 | J1       | 15/15     | 
 | J2       | 15/15     | 
 | J3       | 15/15     | 
@@ -31,7 +31,7 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 [Link to problem set](https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/juniorEF.pdf)
 
 | Question | Points    |
-| ---------|:-------- :| 
+|----------|-----------| 
 | J1       | 15/15     | 
 | J2       | 15/15     | 
 | J3       | 15/15     | 
@@ -42,7 +42,7 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 [Link to problem set](https://www.cemc.uwaterloo.ca/contests/computing/2018/stage%201/juniorEF.pdf)
 
 | Question | Points    |
-| ---------|:-------- :| 
+|----------|-----------| 
 | J1       | 15/15     | 
 | J2       | 15/15     | 
 | J3       | 15/15     | 
