@@ -1,5 +1,5 @@
 <div align='center'>
-	<h1 align='center'>Canada Computing Competition Practice</h1>
+	<h1 align='center'>Canadian Computing Competition Practice</h1>
 	<img
 	    src="https://img.shields.io/github/workflow/status/jo3-l/ccc-java/Continuous%20Integration.svg?style=for-the-badge"
 	/>
