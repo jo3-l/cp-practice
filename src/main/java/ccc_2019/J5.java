@@ -2,19 +2,19 @@ package ccc_2019;
 
 import java.util.*;
 
-// This solution seems to work fine but only gets 7/15 points, TLEing on other batches. Help is appreciated!
+// This solution seems to work fine but only gets 7/15 points, TLEing on other batches.
+// TODO: Fix this solution (probably a double-ended BFS would do, along with some other optimizations).
 public class J5 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         TrieNode rootNode = new TrieNode(false, null);
-
-        for (int n = 0; n < 3; n++) {
+        // 1-based because rule numbers are 1-based.
+        for (int n = 1; n <= 3; n++) {
             String[] parts = scanner.nextLine().split(" ");
             String originalSequence = parts[0];
             String finalSequence = parts[1];
-
-            Rule rule = new Rule(originalSequence, finalSequence, n + 1); // Rule number is 1-based.
+            Rule rule = new Rule(originalSequence, finalSequence, n);
 
             TrieNode.linkRuleToNode(rule, rootNode);
         }
@@ -52,7 +52,7 @@ public class J5 {
             if (sequence.equals(finalSequence) && stepsTaken == stepsToTake) return history;
             if (stepsTaken >= stepsToTake) return null;
 
-            // List of nodes that are in the middle of being matched currently
+            // List of nodes that are being matched currently
             LinkedList<TrieNode> matchingNodes = new LinkedList<>();
 
             // Loop over the string and run a depth-first recursive search over possible substitutions we can perform
@@ -72,13 +72,13 @@ public class J5 {
                         List<RuleMatch> resultingHistory = getRuleHistory(ruleMatch.resultingSequence);
                         // If we didn't get a valid result, remove the match from the history
                         if (resultingHistory == null) history.remove(history.size() - 1);
-                            // If we did get a valid result, bubble it upwards
+                            // If we did get a valid result, bubble it up
                         else return history;
                     }
 
                     if (!adjacentNode.isLeaf()) {
                         matchingNodes.addFirst(adjacentNode);
-                        startIteratingAt = 1; // Skip iterating over the node we just added.
+                        startIteratingAt = 1; // Don't iterate over the node we just added.
                     }
                 }
 
@@ -97,10 +97,13 @@ public class J5 {
                             else return history;
                         }
 
-                        if (adjacentNode.isLeaf()) iter.remove(); // Done with this node for now, so remove it.
-                        else iter.set(adjacentNode); // Otherwise, set it to the adjacent node (advancing 1 position).
+                        // Done with this node for now, so remove it.
+                        if (adjacentNode.isLeaf()) iter.remove();
+                            // Otherwise, set it to the adjacent node (advancing 1 position).
+                        else iter.set(adjacentNode);
                     } else {
-                        iter.remove(); // Unable to find an adjacent node, so remove it.
+                        // Unable to find an adjacent node, so remove it.
+                        iter.remove();
                     }
                 }
             }
@@ -121,7 +124,8 @@ public class J5 {
 
         public RuleMatch(Rule rule, String sequence, int startIndex) {
             this.resultingSequence = rule.applyTo(sequence, startIndex);
-            this.startPosition = startIndex + 1; // Question asks for the position to be 1-based.
+            // +1 because start index is displayed as 1-based.
+            this.startPosition = startIndex + 1;
             this.ruleNumber = rule.ruleNumber;
         }
 
@@ -159,12 +163,14 @@ public class J5 {
             this.hasRule = hasRule;
         }
 
+        // linkRuleToNode links a rule to a Trie node.
         public static void linkRuleToNode(Rule rule, TrieNode node) {
             TrieNode currentNode = node;
             // Add this string to the trie.
             for (int i = 0; i < rule.originalSequence.length(); i++) {
                 TrieNode newNode = i == rule.originalSequence.length() - 1
-                        ? new TrieNode(true, new ArrayList<>(Collections.singletonList(rule))) // Last character of this stirng, so construct a leaf node.
+                        // Last character of this string, so construct a leaf node.
+                        ? new TrieNode(true, new ArrayList<>(Collections.singletonList(rule)))
                         : new TrieNode(false, null);
 
                 // Connect this node to the last one, and then set the new node to the current node.
@@ -192,7 +198,7 @@ public class J5 {
         }
 
         public boolean isLeaf() {
-            return hasRule && adjacentNodes.isEmpty();
+            return adjacentNodes.isEmpty();
         }
     }
 }
