@@ -29,7 +29,7 @@ public class J3 {
     private static class DistanceCalculator {
         private final int[] distanceArray;
         // Cache of distances between cities, so we don't perform the computation every time.
-        private int[][] distanceCache = new int[5][5];
+        private final int[][] distanceCache = new int[5][5];
 
         public DistanceCalculator(int[] distanceArray) {
             this.distanceArray = distanceArray;

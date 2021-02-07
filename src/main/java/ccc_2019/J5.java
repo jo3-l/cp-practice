@@ -123,10 +123,10 @@ public class J5 {
         private final int ruleNumber;
 
         public RuleMatch(Rule rule, String sequence, int startIndex) {
-            this.resultingSequence = rule.applyTo(sequence, startIndex);
+            resultingSequence = rule.applyTo(sequence, startIndex);
             // +1 because start index is displayed as 1-based.
-            this.startPosition = startIndex + 1;
-            this.ruleNumber = rule.ruleNumber;
+            startPosition = startIndex + 1;
+            ruleNumber = rule.ruleNumber;
         }
 
         @Override
@@ -159,7 +159,7 @@ public class J5 {
         private final Map<Character, TrieNode> adjacentNodes = new HashMap<>();
 
         public TrieNode(boolean hasRule, List<Rule> rules) {
-            this.applicableRules = rules == null ? new ArrayList<>() : rules;
+            applicableRules = rules == null ? new ArrayList<>() : rules;
             this.hasRule = hasRule;
         }
 

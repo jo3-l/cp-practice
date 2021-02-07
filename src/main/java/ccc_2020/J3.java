@@ -5,6 +5,11 @@ import java.util.Scanner;
 public class J3 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        // All this question is is getting the maximum and minimum (x, y) coordinates from the set of points given and then
+        // using the maximum (x, y) coordinates as the top right corner and the minimum (x, y) coordinates as the bottom
+        // left corner. Of course, we have ot add/subtract 1 to make sure points on the edge fit. Otherwise, that's
+        // essentially it for this question.
+
         int maxY = -1;
         int minY = 101;
         int minX = 101;

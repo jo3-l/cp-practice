@@ -3,9 +3,9 @@ package ccc_2020;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 public class J5 {
@@ -39,6 +39,7 @@ public class J5 {
             }
         }
 
+        // Monkey-patch the end cell to use our special token so we can easily differentiate it.
         matrix[maxRows - 1][maxColumns - 1] = END_ROOM_TOKEN;
         PathFinder finder = new PathFinder(matrix[0][0], matrix, maxRows, maxColumns);
         System.out.println(finder.canEscape() ? "yes" : "no");
@@ -48,7 +49,7 @@ public class J5 {
         private final int[][] matrix;
         private final int maxRows;
         private final int maxColumns;
-        private final Deque<Integer> queuedValues = new ArrayDeque<>();
+        private final Queue<Integer> queuedValues = new LinkedList<>();
         private final Set<Integer> visitedValues = new HashSet<>();
 
         private PathFinder(int initialValue, int[][] matrix, int maxRows, int maxColumns) {
@@ -59,22 +60,30 @@ public class J5 {
             queuedValues.add(initialValue);
         }
 
+        // canEscape reports whether we can escape out of the room. It uses a breadth-first search internally.
         public boolean canEscape() {
             while (!queuedValues.isEmpty()) {
-                int topValue = queuedValues.pop();
+                int value = queuedValues.poll();
 
-                int lowerBound = (int) Math.ceil((float) topValue / Math.max(maxRows, maxColumns));
+                // These lower and upper bounds ensure that we handle all possible values but not too many.
+                // These can likely be tweaked further so we iterate over even less values, but in any case this solution
+                // still gets full points, so it's whatever.
+                int lowerBound = (int) Math.ceil((float) value / Math.max(maxRows, maxColumns));
                 int upperBound = maxRows + 1;
                 for (int possibleRow = lowerBound; possibleRow < upperBound; possibleRow++) {
-                    if (topValue % possibleRow == 0) {
-                        int matchingColumn = topValue / possibleRow;
-                        if (matchingColumn > maxColumns) continue;
-                        if (this.queueMove(possibleRow - 1, matchingColumn - 1)) return true;
+                    // If the row isn't a divisor of the value, that means that there's no corresponding column, so we
+                    // can simply skip over this one.
+                    if (value % possibleRow != 0) continue;
+                    int matchingColumn = value / possibleRow;
+                    // Ignore if the column is out of range.
+                    if (matchingColumn > maxColumns) continue;
+                    if (queueMove(possibleRow - 1, matchingColumn - 1)) return true;
 
-                        if (possibleRow != matchingColumn) {
-                            if (matchingColumn > maxRows || possibleRow > maxColumns) continue;
-                            if (this.queueMove(matchingColumn - 1, possibleRow - 1)) return true;
-                        }
+                    // Check if we can reverse the column and row values (5 * 2 = 10, but so is 2 * 5).
+                    if (possibleRow != matchingColumn) {
+                        // Ignore if either of the values are out of range.
+                        if (matchingColumn > maxRows || possibleRow > maxColumns) continue;
+                        if (queueMove(matchingColumn - 1, possibleRow - 1)) return true;
                     }
                 }
             }
@@ -86,10 +95,11 @@ public class J5 {
         private boolean queueMove(int row, int column) {
             int value = matrix[row][column];
             if (value == END_ROOM_TOKEN) return true;
+            // If we've already visited this value, no need to visit it again.
             if (visitedValues.contains(value)) return false;
 
-            this.visitedValues.add(value);
-            this.queuedValues.add(value);
+            visitedValues.add(value);
+            queuedValues.add(value);
             return false;
         }
     }

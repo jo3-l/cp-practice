@@ -118,9 +118,9 @@ public class J5 {
         // which we start from) it will be true.
         public void visitPage(int pageNumber, int[] branches, boolean canNaturallyReach) {
             // If this page number was queued from an earlier call, we can override some checks.
-            boolean isQueued = this.visitQueue.contains(pageNumber);
-            if (isQueued) this.visitQueue.remove(pageNumber);
-            if ((!canNaturallyReach && !isQueued) || (this.visitedPages.contains(pageNumber) && !isQueued)) return;
+            boolean isQueued = visitQueue.contains(pageNumber);
+            if (isQueued) visitQueue.remove(pageNumber);
+            if ((!canNaturallyReach && !isQueued) || (visitedPages.contains(pageNumber) && !isQueued)) return;
             for (int branchPageNumber : branches) {
                 // visitPage is called when pageData may not be fully populated. However, we can be sure that we have the
                 // data for the current page, meaning that all pages with lower page numbers have complete data.
