@@ -63,9 +63,9 @@ public class J5 {
         // Depth we're at currently (the page count of the branch).
         int depth = 1;
         while (!pageQueue.isEmpty()) {
-            int levelSize = pageQueue.size();
+            int levelBreadth = pageQueue.size();
             // Exhaust all nodes in the the current level before moving on.
-            while (levelSize-- > 0) {
+            while (levelBreadth-- > 0) {
                 int pageNumber = pageQueue.poll();
                 int[] branches = pageData[pageNumber];
                 // If we've reached a page with no branches, it is the end of a branch. Due to the fact that we're using
