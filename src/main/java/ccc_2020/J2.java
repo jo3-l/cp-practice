@@ -16,7 +16,7 @@ public class J2 {
         int day = 0;
         while (totalInfections <= targetTotalInfections) {
             ++day;
-            totalInfections += Math.pow(reproductionNumber, day) * initialInfections;
+            totalInfections += (int) Math.pow(reproductionNumber, day) * initialInfections;
         }
 
         System.out.println(day);
