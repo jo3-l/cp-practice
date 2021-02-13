@@ -1,137 +1,175 @@
 package ccc_2019;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-// This solution seems to work fine but only gets 7/15 points, TLEing on other batches.
-// TODO: Fix this solution (probably a double-ended BFS would do, along with some other optimizations).
 public class J5 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         TrieNode rootNode = new TrieNode(false, null);
-        // 1-based because rule numbers are 1-based.
-        for (int n = 1; n <= 3; n++) {
+        TrieNode reversedRootNode = new TrieNode(false, null);
+        for (int ruleNumber = 1; ruleNumber <= 3; ruleNumber++) {
             String[] parts = scanner.nextLine().split(" ");
             String originalSequence = parts[0];
             String finalSequence = parts[1];
-            Rule rule = new Rule(originalSequence, finalSequence, n);
 
-            TrieNode.linkRuleToNode(rule, rootNode);
+            TrieNode.linkRuleToNode(new Rule(originalSequence, finalSequence, ruleNumber), rootNode);
+            TrieNode.linkRuleToNode(new Rule(finalSequence, originalSequence, ruleNumber), reversedRootNode);
         }
 
         String[] parts = scanner.nextLine().split(" ");
         int stepsToTake = Integer.parseInt(parts[0]);
         String originalSequence = parts[1];
-        String finalSequence = parts[2];
+        String resultingSequence = parts[2];
 
-        SequenceFinder finder = new SequenceFinder(stepsToTake, finalSequence, rootNode);
-        List<RuleMatch> history = finder.getRuleHistory(originalSequence);
-        if (history == null) {
-            System.out.println("Didn't find a sequence of substitutions that matched the given criteria. This should never happen!");
-            return;
+        if (stepsToTake == 1) {
+            List<RuleMatch> history = getSubstitutionHistories(originalSequence, stepsToTake, rootNode)
+                    .stream()
+                    .filter(v -> v.get(v.size() - 1).resultingSequence.equals(resultingSequence))
+                    .findFirst()
+                    .get();
+            for (RuleMatch match : history) System.out.println(match.toString(false));
         }
 
-        for (RuleMatch match : history) System.out.println(match.toString());
+        // Split the work in half and meet in the middle.
+        int forwardSteps = Math.floorDiv(stepsToTake, 2);
+        int reverseSteps = stepsToTake - forwardSteps;
+
+        Queue<List<RuleMatch>> forwardHistories = getSubstitutionHistories(originalSequence, forwardSteps, rootNode);
+        Set<String> halfwayResultingSequences = forwardHistories
+                .stream()
+                .map(history -> history.get(history.size() - 1).resultingSequence)
+                .collect(Collectors.toCollection(HashSet::new));
+
+        List<RuleMatch> reverseHistory = getSubstitutionHistories(resultingSequence, reverseSteps, reversedRootNode)
+                .stream()
+                .filter(history -> halfwayResultingSequences.contains(history.get(history.size() - 1).resultingSequence))
+                .findFirst()
+                .get();
+
+        String expectedSequence = reverseHistory.get(reverseHistory.size() - 1).resultingSequence;
+        List<RuleMatch> matchingHistory = forwardHistories
+                .stream()
+                .filter(v -> (v.get(v.size() - 1).resultingSequence).equals(expectedSequence))
+                .findFirst()
+                .get();
+        for (RuleMatch match : matchingHistory) System.out.println(match.toString(false));
+        for (int i = reverseHistory.size() - 1; i >= 0; i--) System.out.println(reverseHistory.get(i).toString(true));
     }
 
-    private static class SequenceFinder {
-        private final int stepsToTake;
-        private final String finalSequence;
-        private final TrieNode rootNode;
-        private final List<RuleMatch> history = new ArrayList<>();
+    private static Queue<List<RuleMatch>> getSubstitutionHistories(String originalSequence, int stepsToTake, TrieNode rootNode) {
+        Queue<List<RuleMatch>> queue = new LinkedList<>();
+        // Root node of the graph is an empty list, because we don't have any history yet.
+        queue.add(new ArrayList<>());
 
-        public SequenceFinder(int stepsToTake, String finalSequence, TrieNode rootNode) {
-            this.stepsToTake = stepsToTake;
-            this.finalSequence = finalSequence;
-            this.rootNode = rootNode;
-        }
+        int stepsTaken = 0;
+        while (!queue.isEmpty()) {
+            if (stepsTaken == stepsToTake) return queue;
 
-        public List<RuleMatch> getRuleHistory(String sequence) {
-            // Edge cases
-            int stepsTaken = history.size();
-            if (sequence.equals(finalSequence) && stepsTaken == stepsToTake) return history;
-            if (stepsTaken >= stepsToTake) return null;
+            // Number of nodes in the current level of the graph.
+            int levelBreadth = queue.size();
+            // Process all nodes at the current level before moving on.
+            while (levelBreadth-- > 0) {
+                List<RuleMatch> history = queue.poll();
+                String sequence = history.isEmpty() ? originalSequence : history.get(history.size() - 1).resultingSequence;
 
-            // List of nodes that are being matched currently
-            LinkedList<TrieNode> matchingNodes = new LinkedList<>();
+                LinkedList<TrieNode> matchingTrieNodes = new LinkedList<>();
+                for (int i = 0; i < sequence.length(); i++) {
+                    CharacterType c = CharacterType.from(sequence.charAt(i));
+                    boolean wasNewNodeAdded = false;
 
-            // Loop over the string and run a depth-first recursive search over possible substitutions we can perform
-            for (int i = 0; i < sequence.length(); i++) {
-                char c = sequence.charAt(i);
-                int startIteratingAt = 0;
-
-                // See if there's a substitution rule that starts with the current character
-                TrieNode adjacentNode = rootNode.getAdjacentNode(c);
-                if (adjacentNode != null) {
-                    // If there are rules on this node, then apply them to the current string and recursively find rules which can be applied to that new string
-                    for (Rule rule : adjacentNode.applicableRules) {
-                        RuleMatch ruleMatch = createRuleMatch(rule, sequence, i);
-                        // Add this match to the history
-                        history.add(ruleMatch);
-                        // See if we can obtain a valid result using the new string
-                        List<RuleMatch> resultingHistory = getRuleHistory(ruleMatch.resultingSequence);
-                        // If we didn't get a valid result, remove the match from the history
-                        if (resultingHistory == null) history.remove(history.size() - 1);
-                            // If we did get a valid result, bubble it up
-                        else return history;
-                    }
-
-                    if (!adjacentNode.isLeaf()) {
-                        matchingNodes.addFirst(adjacentNode);
-                        startIteratingAt = 1; // Don't iterate over the node we just added.
-                    }
-                }
-
-                // Now continue matching the nodes from previous iterations
-                ListIterator<TrieNode> iter = matchingNodes.listIterator(startIteratingAt);
-                while (iter.hasNext()) {
-                    TrieNode node = iter.next();
-                    adjacentNode = node.getAdjacentNode(c);
+                    TrieNode adjacentNode = rootNode.getAdjacentNode(c);
                     if (adjacentNode != null) {
-                        // Similar steps as that above
                         for (Rule rule : adjacentNode.applicableRules) {
                             RuleMatch ruleMatch = createRuleMatch(rule, sequence, i);
-                            history.add(ruleMatch);
-                            List<RuleMatch> resultingHistory = getRuleHistory(ruleMatch.resultingSequence);
-                            if (resultingHistory == null) history.remove(history.size() - 1);
-                            else return history;
+                            // Clone the history as we don't want to mutate the original history.
+                            List<RuleMatch> historyClone = new ArrayList<>(history);
+                            historyClone.add(ruleMatch);
+                            queue.offer(historyClone);
                         }
 
-                        // Done with this node for now, so remove it.
-                        if (adjacentNode.isLeaf()) iter.remove();
-                            // Otherwise, set it to the adjacent node (advancing 1 position).
-                        else iter.set(adjacentNode);
-                    } else {
-                        // Unable to find an adjacent node, so remove it.
-                        iter.remove();
+                        if (!adjacentNode.isLeaf()) {
+                            // Only add it if it isn't a leaf node.
+                            matchingTrieNodes.offerFirst(adjacentNode);
+                            wasNewNodeAdded = true;
+                        }
+                    }
+
+                    // Continue matching trie nodes from previous iterations. Remember to skip the first element
+                    // if we added a new node, we don't want to double-match it.
+                    ListIterator<TrieNode> it = matchingTrieNodes.listIterator(wasNewNodeAdded ? 1 : 0);
+                    while (it.hasNext()) {
+                        TrieNode node = it.next();
+                        adjacentNode = node.getAdjacentNode(c);
+                        if (adjacentNode == null) {
+                            it.remove();
+                            continue;
+                        }
+
+                        for (Rule rule : adjacentNode.applicableRules) {
+                            RuleMatch ruleMatch = createRuleMatch(rule, sequence, i);
+                            // Again, clone the history so our changes don't affect the original instance.
+                            List<RuleMatch> historyClone = new ArrayList<>(history);
+                            historyClone.add(ruleMatch);
+                            queue.offer(historyClone);
+                        }
+
+                        if (adjacentNode.isLeaf()) {
+                            // Done matching this node, so remove it.
+                            it.remove();
+                        } else {
+                            // Replace old trie node with the new one which has been advanced 1 position.
+                            it.set(adjacentNode);
+                        }
                     }
                 }
             }
 
-            return null;
+            ++stepsTaken;
         }
 
-        private RuleMatch createRuleMatch(Rule rule, String str, int endIndex) {
-            int startIndex = endIndex - rule.originalSequence.length() + 1;
-            return new RuleMatch(rule, str, startIndex);
+        // Should never happen.
+        throw new AssertionError("while block exited without returning a value.");
+    }
+
+    private static RuleMatch createRuleMatch(Rule rule, String str, int endIndex) {
+        int startIndex = endIndex - rule.originalSequence.length() + 1;
+        return new RuleMatch(rule, str, startIndex);
+    }
+
+    private enum CharacterType {
+        A,
+        B;
+
+        public static CharacterType from(int codepoint) {
+            switch (codepoint) {
+                case 'A':
+                    return CharacterType.A;
+                case 'B':
+                    return CharacterType.B;
+                default:
+                    throw new IllegalArgumentException("Character passed to CharacterType.from() was neither 'A' nor 'B'.");
+            }
         }
     }
 
     private static class RuleMatch {
+        private final String originalSequence;
         private final String resultingSequence;
-        private final int startPosition;
+        private final int startIndex;
         private final int ruleNumber;
 
-        public RuleMatch(Rule rule, String sequence, int startIndex) {
-            resultingSequence = rule.applyTo(sequence, startIndex);
-            // +1 because start index is displayed as 1-based.
-            startPosition = startIndex + 1;
+        public RuleMatch(Rule rule, String originalSequence, int startIndex) {
+            this.originalSequence = originalSequence;
+            this.startIndex = startIndex;
+            resultingSequence = rule.applyTo(originalSequence, startIndex);
             ruleNumber = rule.ruleNumber;
         }
 
-        @Override
-        public String toString() {
-            return ruleNumber + " " + startPosition + " " + resultingSequence;
+        public String toString(boolean reverse) {
+            // The question asks that the start position be displayed as a 1-based number, so +1.
+            return ruleNumber + " " + (startIndex + 1) + " " + (reverse ? originalSequence : resultingSequence);
         }
     }
 
@@ -147,53 +185,52 @@ public class J5 {
         }
 
         public String applyTo(String str, int startIndex) {
-            String startSubstr = str.substring(0, startIndex);
-            String endSubstr = str.substring(startIndex + originalSequence.length());
-            return startSubstr + finalSequence + endSubstr;
+            return str.substring(0, startIndex) + finalSequence + str.substring(startIndex + originalSequence.length());
         }
     }
 
     private static class TrieNode {
         public final boolean hasRule;
         public final List<Rule> applicableRules;
-        private final Map<Character, TrieNode> adjacentNodes = new HashMap<>();
+        private final EnumMap<CharacterType, TrieNode> adjacentNodes = new EnumMap<>(CharacterType.class);
 
         public TrieNode(boolean hasRule, List<Rule> rules) {
             applicableRules = rules == null ? new ArrayList<>() : rules;
             this.hasRule = hasRule;
         }
 
-        // linkRuleToNode links a rule to a Trie node.
         public static void linkRuleToNode(Rule rule, TrieNode node) {
             TrieNode currentNode = node;
-            // Add this string to the trie.
             for (int i = 0; i < rule.originalSequence.length(); i++) {
-                TrieNode newNode = i == rule.originalSequence.length() - 1
-                        // Last character of this string, so construct a leaf node.
-                        ? new TrieNode(true, new ArrayList<>(Collections.singletonList(rule)))
-                        : new TrieNode(false, null);
+                TrieNode newNode;
+                // If it's the last character in the sequence...
+                if (i == rule.originalSequence.length() - 1) {
+                    List<Rule> ruleList = new ArrayList<>();
+                    ruleList.add(rule);
+                    // Create a leaf node.
+                    newNode = new TrieNode(true, ruleList);
+                } else {
+                    newNode = new TrieNode(false, null);
+                }
 
-                // Connect this node to the last one, and then set the new node to the current node.
-                currentNode = currentNode.link(rule.originalSequence.charAt(i), newNode);
+                CharacterType c = CharacterType.from(rule.originalSequence.charAt(i));
+                currentNode = currentNode.link(c, newNode);
             }
         }
 
-        public TrieNode link(char c, TrieNode node) {
-            return adjacentNodes.merge(c, node, (oldNode, __) -> {
-                // Merge the old node's applicable rules with the new node's.
-                TrieNode newNode = new TrieNode(oldNode.hasRule || node.hasRule, oldNode.applicableRules);
-                newNode.applicableRules.addAll(node.applicableRules);
+        public TrieNode link(CharacterType c, TrieNode node) {
+            return adjacentNodes.merge(c, node, (oldNode, newNode) -> {
+                TrieNode mergedNode = new TrieNode(oldNode.hasRule || newNode.hasRule, oldNode.applicableRules);
+                mergedNode.applicableRules.addAll(newNode.applicableRules);
 
-                // Merge the old node's adjacent nodes with the new node's.
-                newNode.adjacentNodes.putAll(oldNode.adjacentNodes);
-                for (Map.Entry<Character, TrieNode> entry : node.adjacentNodes.entrySet())
-                    newNode.link(entry.getKey(), entry.getValue());
-
-                return newNode;
+                mergedNode.adjacentNodes.putAll(oldNode.adjacentNodes);
+                for (Map.Entry<CharacterType, TrieNode> entry : node.adjacentNodes.entrySet())
+                    mergedNode.link(entry.getKey(), entry.getValue());
+                return mergedNode;
             });
         }
 
-        public TrieNode getAdjacentNode(char c) {
+        public TrieNode getAdjacentNode(CharacterType c) {
             return adjacentNodes.get(c);
         }
 
