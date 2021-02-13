@@ -9,7 +9,7 @@ public class J5 {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int woodCount = Integer.parseInt(reader.readLine());
 
-        int[] availableWood = new int[woodCount];
+        int[] woodLengths = new int[woodCount];
         StringBuilder buffer = new StringBuilder();
         outer:
         for (int i = 0; i < woodCount; i++) {
@@ -20,13 +20,10 @@ public class J5 {
                     continue;
                 }
                 int len = Integer.parseInt(buffer.toString());
-                availableWood[i] = len;
+                woodLengths[i] = len;
                 buffer.setLength(0);
                 continue outer;
             }
         }
-
-        // Given N wood, we would have N / 2 boards to work with.
-        // As such, we can iterate from [1, floor(N / 2)] backwards until we find we can construct a valid fence.
     }
 }

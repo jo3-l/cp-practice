@@ -70,7 +70,7 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 | J2       | 15/15     | 
 | J3       | 15/15     | 
 | J4       | 15/15     | 
-| J5       | n/a       | 
+| J5       | 0/15      | 
 | Total    | 60/75     | 
 
 ## Author
