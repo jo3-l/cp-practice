@@ -73,6 +73,42 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 | J5       | 0/15      | 
 | Total    | 60/75     | 
 
+**CCC '16**<br>
+[Link to problem set](https://www.cemc.uwaterloo.ca/contests/computing/2016/stage%201/juniorEn.pdf)
+
+| Question | Points    |
+|----------|-----------| 
+| J1       | 15/15     | 
+| J2       | 15/15     | 
+| J3       | 15/15     | 
+| J4       | 15/15     | 
+| J5       | 0/15      | 
+| Total    | 60/75     | 
+
+**CCC '15**<br>
+[Link to problem set](https://www.cemc.uwaterloo.ca/contests/computing/2015/stage%201/juniorEn.pdf)
+
+| Question | Points    |
+|----------|-----------| 
+| J1       | 15/15     | 
+| J2       | 15/15     | 
+| J3       | 15/15     | 
+| J4       | 15/15     | 
+| J5       | 0/15      | 
+| Total    | 60/75     | 
+
+**CCC '14**<br>
+[Link to problem set](https://www.cemc.uwaterloo.ca/contests/computing/2014/stage%201/juniorEn.pdf)
+
+| Question | Points    |
+|----------|-----------| 
+| J1       | 15/15     | 
+| J2       | 15/15     | 
+| J3       | 15/15     | 
+| J4       | 15/15     | 
+| J5       | 0/15      | 
+| Total    | 60/75     | 
+
 ## Author
 
 Unless explicitly stated otherwise, I, Joe L., am the author of all code in this repository.<br>
