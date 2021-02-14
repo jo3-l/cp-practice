@@ -1,6 +1,15 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="CommentedOutCode" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="DefaultNotLastCaseInSwitch" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="FallthruInSwitchStatement" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ObsoleteCollection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoreRequiredObsoleteCollectionTypes" value="true" />
+    </inspection_tool>
+    <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ThrowablePrintedToSystemOut" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="UnnecessaryThis" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="UseOfObsoleteDateTimeApi" enabled="true" level="WARNING" enabled_by_default="true" />
   </profile>
 </component>

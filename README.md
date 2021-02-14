@@ -109,6 +109,18 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 | J5       | 0/15      | 
 | Total    | 60/75     | 
 
+**CCC '13**<br>
+[Link to problem set](https://www.cemc.uwaterloo.ca/contests/computing/2013/stage1/juniorEn.pdf)
+
+| Question | Points    |
+|----------|-----------| 
+| J1       | 15/15     | 
+| J2       | 15/15     | 
+| J3       | 15/15     | 
+| J4       | 15/15     | 
+| J5       | 15/15      | 
+| Total    | 75/75     | 
+
 ## Author
 
 Unless explicitly stated otherwise, I, Joe L., am the author of all code in this repository.<br>
