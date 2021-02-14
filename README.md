@@ -118,7 +118,7 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 | J2       | 15/15     | 
 | J3       | 15/15     | 
 | J4       | 15/15     | 
-| J5       | 15/15      | 
+| J5       | 15/15     | 
 | Total    | 75/75     | 
 
 ## Author
