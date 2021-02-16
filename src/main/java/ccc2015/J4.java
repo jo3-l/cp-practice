@@ -3,6 +3,7 @@ package ccc2015;
 import java.util.*;
 
 public class J4 {
+    @SuppressWarnings("lgtm[java/index-out-of-bounds]")
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int entryCount = scanner.nextInt();
