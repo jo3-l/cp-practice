@@ -82,8 +82,8 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 | J2       | 15/15     | 
 | J3       | 15/15     | 
 | J4       | 15/15     | 
-| J5       | 0/15      | 
-| Total    | 60/75     | 
+| J5       | 75/15     | 
+| Total    | 75/75     | 
 
 **CCC '15**<br>
 [Link to problem set](https://www.cemc.uwaterloo.ca/contests/computing/2015/stage%201/juniorEn.pdf)
