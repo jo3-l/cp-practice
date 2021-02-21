@@ -31,6 +31,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -46,6 +47,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -61,6 +63,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -76,6 +79,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -91,6 +95,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -106,6 +111,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -121,6 +127,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -136,6 +143,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -151,6 +159,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -166,6 +175,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -181,6 +191,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
@@ -196,6 +207,7 @@ Link to problem set (unavailable at this time)
 
 <details>
 <summary>Junior Scores</summary>
+
 | Question | Points    |
 |----------|-----------| 
 | J1       | 15/15     | 
