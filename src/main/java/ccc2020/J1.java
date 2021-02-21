@@ -9,7 +9,7 @@ public class J1 {
         int mediumTreats = scanner.nextInt();
         int largeTreats = scanner.nextInt();
 
-        int happinessScore = smallTreats + 2 * mediumTreats + 3 * largeTreats;
-        System.out.println(happinessScore >= 10 ? "happy" : "sad");
+        int score = smallTreats + 2 * mediumTreats + 3 * largeTreats;
+        System.out.println(score >= 10 ? "happy" : "sad");
     }
 }

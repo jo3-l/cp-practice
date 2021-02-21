@@ -9,81 +9,56 @@ import java.util.Queue;
 import java.util.Set;
 
 public class J5 {
-    public static final int END_ROOM_TOKEN = -1;
+    private static final int END_ROOM_TOKEN = -1;
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int maxRows = Integer.parseInt(reader.readLine());
-        int maxColumns = Integer.parseInt(reader.readLine());
+        int rowCount = Integer.parseInt(reader.readLine());
+        int columnCount = Integer.parseInt(reader.readLine());
 
-        int[][] matrix = new int[maxRows][maxColumns];
+        int[][] matrix = new int[rowCount][columnCount];
         StringBuilder buffer = new StringBuilder();
-        for (int i = 0; i < maxRows; i++) {
-            int[] row = matrix[i];
-            outer:
-            for (int j = 0; j < maxColumns; j++) {
-                while (true) {
-                    int c = reader.read();
-                    switch (c) {
-                        case ' ':
-                        case '\n':
-                        case -1:
-                            row[j] = Integer.parseInt(buffer.toString());
-                            buffer.setLength(0);
-                            continue outer;
-                        default:
-                            buffer.append((char) c);
-                            break;
-                    }
+
+        for (int rowNumber = 0; rowNumber < rowCount; rowNumber++) {
+            int[] row = matrix[rowNumber];
+            for (int columnNumber = 0; columnNumber < columnCount; columnNumber++) {
+                for (int c = reader.read(); c != ' ' && c != '\n' && c != -1; c = reader.read()) {
+                    buffer.append((char) c);
                 }
+                row[columnNumber] = Integer.parseInt(buffer.toString());
+                buffer.setLength(0);
             }
         }
 
-        // Monkey-patch the end cell to use our special token so we can easily differentiate it.
-        matrix[maxRows - 1][maxColumns - 1] = END_ROOM_TOKEN;
-        PathFinder finder = new PathFinder(matrix[0][0], matrix, maxRows, maxColumns);
-        System.out.println(finder.canEscape() ? "yes" : "no");
+        matrix[rowCount - 1][columnCount - 1] = END_ROOM_TOKEN;
+
+        PathFinder finder = new PathFinder();
+        System.out.println(finder.canReachEnd(matrix, rowCount, columnCount) ? "yes" : "no");
     }
 
     private static class PathFinder {
-        private final int[][] matrix;
-        private final int maxRows;
-        private final int maxColumns;
         private final Queue<Integer> queuedValues = new LinkedList<>();
         private final Set<Integer> visitedValues = new HashSet<>();
 
-        private PathFinder(int initialValue, int[][] matrix, int maxRows, int maxColumns) {
-            this.matrix = matrix;
-            this.maxRows = maxRows;
-            this.maxColumns = maxColumns;
+        public boolean canReachEnd(int[][] matrix, int rowCount, int columnCount) {
+            reset();
 
+            int initialValue = matrix[0][0];
             queuedValues.add(initialValue);
-        }
+            visitedValues.add(initialValue);
 
-        // canEscape reports whether we can escape out of the room. It uses a breadth-first search internally.
-        public boolean canEscape() {
             while (!queuedValues.isEmpty()) {
                 int value = queuedValues.poll();
 
-                // These lower and upper bounds ensure that we handle all possible values but not too many.
-                // These can likely be tweaked further so we iterate over even less values, but in any case this solution
-                // still gets full points, so it's whatever.
-                int lowerBound = (int) Math.ceil((float) value / Math.max(maxRows, maxColumns));
-                int upperBound = maxRows + 1;
-                for (int possibleRow = lowerBound; possibleRow < upperBound; possibleRow++) {
-                    // If the row isn't a divisor of the value, that means that there's no corresponding column, so we
-                    // can simply skip over this one.
-                    if (value % possibleRow != 0) continue;
-                    int matchingColumn = value / possibleRow;
-                    // Ignore if the column is out of range.
-                    if (matchingColumn > maxColumns) continue;
-                    if (queueMove(possibleRow - 1, matchingColumn - 1)) return true;
+                int lowerBound = (int) Math.ceil((float) value / Math.max(rowCount, columnCount));
+                for (int row = lowerBound; row <= rowCount; row++) {
+                    if (value % row != 0) continue;
+                    int column = value / row;
+                    if (column > columnCount) continue;
+                    if (tryMove(matrix[row - 1][column - 1])) return true;
 
-                    // Check if we can reverse the column and row values (5 * 2 = 10, but so is 2 * 5).
-                    if (possibleRow != matchingColumn) {
-                        // Ignore if either of the values are out of range.
-                        if (matchingColumn > maxRows || possibleRow > maxColumns) continue;
-                        if (queueMove(matchingColumn - 1, possibleRow - 1)) return true;
+                    if (row != column && column <= rowCount && row <= columnCount) {
+                        if (tryMove(matrix[column - 1][row - 1])) return true;
                     }
                 }
             }
@@ -91,16 +66,18 @@ public class J5 {
             return false;
         }
 
-        // queueMove queues a move to the square at the given row and column. It returns whether the square was the end square.
-        private boolean queueMove(int row, int column) {
-            int value = matrix[row][column];
+        private boolean tryMove(int value) {
             if (value == END_ROOM_TOKEN) return true;
-            // If we've already visited this value, no need to visit it again.
             if (visitedValues.contains(value)) return false;
 
             visitedValues.add(value);
             queuedValues.add(value);
             return false;
+        }
+
+        private void reset() {
+            queuedValues.clear();
+            visitedValues.clear();
         }
     }
 }

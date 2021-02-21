@@ -9,9 +9,6 @@ public class J2 {
         int initialInfections = scanner.nextInt();
         int reproductionNumber = scanner.nextInt();
 
-        // Note: There should be clever math way of doing this using the geometric series formula, but I wasn't able to find
-        // it and was too lazy to look further since the current solution gets full points on the CCC online grader and
-        // DMOJ.
         int totalInfections = initialInfections;
         int day = 0;
         while (totalInfections <= targetTotalInfections) {
