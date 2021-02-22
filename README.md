@@ -27,7 +27,8 @@ It is a sister repository to my [Python 3 solution repository](https://github.co
 ## Status
 
 **CCC '21**<br>
-Link to problem set (unavailable at this time)
+<!-- TODO: Change this to the actual link when it comes out -->
+[Link to problem set](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 <details>
 <summary>Junior Scores</summary>
