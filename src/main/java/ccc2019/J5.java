@@ -8,14 +8,14 @@ public class J5 {
         Scanner scanner = new Scanner(System.in);
 
         TrieNode rootNode = new TrieNode(false, null);
-        TrieNode reversedRootNode = new TrieNode(false, null);
+        TrieNode backwardsRootNode = new TrieNode(false, null);
         for (int ruleNumber = 1; ruleNumber <= 3; ruleNumber++) {
             String[] parts = scanner.nextLine().split(" ");
             String originalSequence = parts[0];
             String finalSequence = parts[1];
 
             TrieNode.linkRuleToNode(new Rule(originalSequence, finalSequence, ruleNumber), rootNode);
-            TrieNode.linkRuleToNode(new Rule(finalSequence, originalSequence, ruleNumber), reversedRootNode);
+            TrieNode.linkRuleToNode(new Rule(finalSequence, originalSequence, ruleNumber), backwardsRootNode);
         }
 
         String[] parts = scanner.nextLine().split(" ");
@@ -29,50 +29,55 @@ public class J5 {
                     .filter(v -> v.get(v.size() - 1).resultingSequence.equals(resultingSequence))
                     .findFirst()
                     .get();
+
             for (RuleMatch match : history) System.out.println(match.toString(false));
         }
 
-        // Split the work in half and meet in the middle.
+        // Meet in the middle, split work in half.
         int forwardSteps = Math.floorDiv(stepsToTake, 2);
         int reverseSteps = stepsToTake - forwardSteps;
 
-        Queue<List<RuleMatch>> forwardHistories = getSubstitutionHistories(originalSequence, forwardSteps, rootNode);
-        Set<String> halfwayResultingSequences = forwardHistories
+        Queue<List<RuleMatch>> frontHistories = getSubstitutionHistories(originalSequence, forwardSteps, rootNode);
+        Set<String> frontResultingSequences = frontHistories
                 .stream()
                 .map(history -> history.get(history.size() - 1).resultingSequence)
                 .collect(Collectors.toCollection(HashSet::new));
 
-        List<RuleMatch> reverseHistory = getSubstitutionHistories(resultingSequence, reverseSteps, reversedRootNode)
+        List<RuleMatch> backHistory = getSubstitutionHistories(resultingSequence, reverseSteps, backwardsRootNode)
                 .stream()
-                .filter(history -> halfwayResultingSequences.contains(history.get(history.size() - 1).resultingSequence))
+                .filter(history -> frontResultingSequences.contains(history.get(history.size() - 1).resultingSequence))
                 .findFirst()
                 .get();
 
-        String expectedSequence = reverseHistory.get(reverseHistory.size() - 1).resultingSequence;
-        List<RuleMatch> matchingHistory = forwardHistories
+        String middleResultingSequence = backHistory.get(backHistory.size() - 1).resultingSequence;
+        List<RuleMatch> matchingFrontHistory = frontHistories
                 .stream()
-                .filter(v -> (v.get(v.size() - 1).resultingSequence).equals(expectedSequence))
+                .filter(v -> {
+                    String finalSequence = v.get(v.size() - 1).resultingSequence;
+                    return finalSequence.equals(middleResultingSequence);
+                })
                 .findFirst()
                 .get();
-        for (RuleMatch match : matchingHistory) System.out.println(match.toString(false));
-        for (int i = reverseHistory.size() - 1; i >= 0; i--) System.out.println(reverseHistory.get(i).toString(true));
+
+        for (RuleMatch match : matchingFrontHistory) System.out.println(match.toString(false));
+        for (int i = backHistory.size() - 1; i >= 0; i--) System.out.println(backHistory.get(i).toString(true));
     }
 
     private static Queue<List<RuleMatch>> getSubstitutionHistories(String originalSequence, int stepsToTake, TrieNode rootNode) {
         Queue<List<RuleMatch>> queue = new LinkedList<>();
-        // Root node of the graph is an empty list, because we don't have any history yet.
         queue.add(new ArrayList<>());
 
         int stepsTaken = 0;
         while (!queue.isEmpty()) {
             if (stepsTaken == stepsToTake) return queue;
 
-            // Number of nodes in the current level of the graph.
-            int levelBreadth = queue.size();
             // Process all nodes at the current level before moving on.
+            int levelBreadth = queue.size();
             while (levelBreadth-- > 0) {
                 List<RuleMatch> history = queue.poll();
-                String sequence = history.isEmpty() ? originalSequence : history.get(history.size() - 1).resultingSequence;
+                String sequence = history.isEmpty()
+                        ? originalSequence
+                        : history.get(history.size() - 1).resultingSequence;
 
                 LinkedList<TrieNode> matchingTrieNodes = new LinkedList<>();
                 for (int i = 0; i < sequence.length(); i++) {
@@ -83,21 +88,21 @@ public class J5 {
                     if (adjacentNode != null) {
                         for (Rule rule : adjacentNode.applicableRules) {
                             RuleMatch ruleMatch = createRuleMatch(rule, sequence, i);
-                            // Clone the history as we don't want to mutate the original history.
+
+                            // Clone as we don't want to mutate the original history.
                             List<RuleMatch> historyClone = new ArrayList<>(history);
                             historyClone.add(ruleMatch);
                             queue.offer(historyClone);
                         }
 
                         if (!adjacentNode.isLeaf()) {
-                            // Only add it if it isn't a leaf node.
                             matchingTrieNodes.offerFirst(adjacentNode);
                             wasNewNodeAdded = true;
                         }
                     }
 
                     // Continue matching trie nodes from previous iterations. Remember to skip the first element
-                    // if we added a new node, we don't want to double-match it.
+                    // if we added a new node, we don't want to match it twice.
                     ListIterator<TrieNode> it = matchingTrieNodes.listIterator(wasNewNodeAdded ? 1 : 0);
                     while (it.hasNext()) {
                         TrieNode node = it.next();
@@ -119,7 +124,7 @@ public class J5 {
                             // Done matching this node, so remove it.
                             it.remove();
                         } else {
-                            // Replace old trie node with the new one which has been advanced 1 position.
+                            // Replace old trie node with the new one which has advanced 1 position.
                             it.set(adjacentNode);
                         }
                     }
@@ -129,8 +134,7 @@ public class J5 {
             ++stepsTaken;
         }
 
-        // Should never happen.
-        throw new AssertionError("while block exited without returning a value.");
+        throw new IllegalStateException();
     }
 
     private static RuleMatch createRuleMatch(Rule rule, String str, int endIndex) {
@@ -149,7 +153,7 @@ public class J5 {
                 case 'B':
                     return CharacterType.B;
                 default:
-                    throw new IllegalArgumentException("Character passed to CharacterType.from() was neither 'A' nor 'B'.");
+                    throw new IllegalStateException();
             }
         }
     }
@@ -168,7 +172,7 @@ public class J5 {
         }
 
         public String toString(boolean reverse) {
-            // The question asks that the start position be displayed as a 1-based number, so +1.
+            // +1 since question wants position to be 1-based.
             return ruleNumber + " " + (startIndex + 1) + " " + (reverse ? originalSequence : resultingSequence);
         }
     }

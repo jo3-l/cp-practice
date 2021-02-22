@@ -22,9 +22,7 @@ public class J5 {
         for (int rowNumber = 0; rowNumber < rowCount; rowNumber++) {
             int[] row = matrix[rowNumber];
             for (int columnNumber = 0; columnNumber < columnCount; columnNumber++) {
-                for (int c = reader.read(); c != ' ' && c != '\n' && c != -1; c = reader.read()) {
-                    buffer.append((char) c);
-                }
+                for (int c = reader.read(); Character.isDigit(c); c = reader.read()) buffer.append((char) c);
                 row[columnNumber] = Integer.parseInt(buffer.toString());
                 buffer.setLength(0);
             }

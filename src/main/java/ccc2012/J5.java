@@ -11,23 +11,23 @@ public class J5 {
 
             int[] coins = new int[coinCount];
             int lastValue = -1;
-            boolean sorted = true;
+            boolean isSorted = true;
             for (int i = 0; i < coinCount; i++) {
                 int value = scanner.nextInt();
                 coins[i] = value;
-                if (!sorted) continue;
+                if (!isSorted) continue;
 
-                if (value < lastValue) sorted = false;
+                if (value < lastValue) isSorted = false;
                 else lastValue = value;
             }
 
-            if (sorted) {
+            if (isSorted) {
                 System.out.println("0");
                 continue;
             }
 
-            MoveFinder finder = new MoveFinder(coins);
-            int moves = finder.computeMinimumMoves();
+            MoveFinder finder = new MoveFinder();
+            int moves = finder.computeMinimumMoves(coins);
             System.out.println(moves == -1 ? "IMPOSSIBLE" : moves);
         }
     }
@@ -36,7 +36,9 @@ public class J5 {
         private final Queue<List<Deque<Integer>>> lineUpQueue = new LinkedList<>();
         private final Set<List<Deque<Integer>>> previousLineUps = new HashSet<>();
 
-        public MoveFinder(int[] coins) {
+        public int computeMinimumMoves(int[] coins) {
+            reset();
+
             List<Deque<Integer>> initialLineUp = new ArrayList<>();
             for (int coin : coins) {
                 Deque<Integer> deque = new LinkedList<>();
@@ -46,16 +48,15 @@ public class J5 {
 
             lineUpQueue.add(initialLineUp);
             previousLineUps.add(initialLineUp);
-        }
 
-        public int computeMinimumMoves() {
             int moves = 1;
             while (!lineUpQueue.isEmpty()) {
                 int levelBreadth = lineUpQueue.size();
                 while (levelBreadth-- > 0) {
                     List<Deque<Integer>> lineUp = lineUpQueue.poll();
                     for (int i = 0; i < lineUp.size(); i++) {
-                        if (queueMove(lineUp, i, i + 1) || queueMove(lineUp, i, i - 1)) return moves;
+                        boolean ok = tryMove(lineUp, i, i + 1) || tryMove(lineUp, i, i - 1);
+                        if (ok) return moves;
                     }
                 }
 
@@ -65,8 +66,7 @@ public class J5 {
             return -1;
         }
 
-        private boolean queueMove(List<Deque<Integer>> lineUp, int fromIndex, int toIndex) {
-            // Check bounds
+        private boolean tryMove(List<Deque<Integer>> lineUp, int fromIndex, int toIndex) {
             if (toIndex >= lineUp.size() || toIndex < 0) return false;
 
             // Check that the value to add is not larger than the top value of the stack.
@@ -77,7 +77,7 @@ public class J5 {
             Deque<Integer> targetStack = lineUp.get(toIndex);
             if (!targetStack.isEmpty() && toAdd > targetStack.getFirst()) return false;
 
-            // Deep clone the line-up.
+            // Deep clone the line-up as we don't want to mutate the original instance.
             List<Deque<Integer>> lineUpClone = new ArrayList<>(lineUp.size());
             for (Deque<Integer> stack : lineUp) lineUpClone.add(new LinkedList<>(stack));
             lineUpClone.get(fromIndex).removeFirst();
@@ -86,24 +86,29 @@ public class J5 {
             if (previousLineUps.contains(lineUpClone)) return false;
 
             int lastValue = 0;
-            boolean sorted = true;
+            boolean isSorted = true;
             for (Deque<Integer> stack : lineUpClone) {
                 if (stack.size() != 1) {
-                    sorted = false;
+                    isSorted = false;
                     break;
                 }
                 int value = stack.getFirst();
                 if (value < lastValue) {
-                    sorted = false;
+                    isSorted = false;
                     break;
                 }
                 lastValue = value;
             }
-            if (sorted) return true;
+            if (isSorted) return true;
 
             lineUpQueue.add(lineUpClone);
             previousLineUps.add(lineUpClone);
             return false;
+        }
+
+        private void reset() {
+            lineUpQueue.clear();
+            previousLineUps.clear();
         }
     }
 }

@@ -21,7 +21,6 @@ public class J4 {
         // computeArithmeticSequencesInRotation().
         count += rotations * 31;
 
-        // leftOverMinutes is the n
         int leftOverMinutes = minutes - rotations * 720;
         int restHours = Math.floorDiv(leftOverMinutes, 60);
         int restMinutes = leftOverMinutes - restHours * 60;
@@ -49,19 +48,13 @@ public class J4 {
     } */
 
     private static boolean isArithmeticSequence(int hour, int minute) {
-        // Given HOUR:MINUTE
-        // There are two possible cases: <digit>:<digit><digit> (if the hour is less than 10, in other words, only 1 digit)
-        // and <digit><digit>:<digit><digit> (if the hour has two digits).
-        //
-        // To see whether the time is an arithmetic sequence, we need only check the difference of adjacent digits.
-        // If all are the same, then it is an arithmetic sequence. Otherwise, it is not.
-        int mTens = Math.floorDiv(minute, 10);
-        int mUnits = minute % 10;
+        int minuteTensPlace = Math.floorDiv(minute, 10);
+        int minuteUnitsPlace = minute % 10;
         if (hour < 10) {
-            return mUnits - mTens == mTens - hour;
+            return minuteUnitsPlace - minuteTensPlace == minuteTensPlace - hour;
         }
-        int hTens = Math.floorDiv(hour, 10);
-        int hUnits = hour % 10;
-        return ((mUnits - mTens) == (mTens - hUnits)) && ((mTens - hUnits) == (hUnits - hTens));
+        int hourTensPlace = Math.floorDiv(hour, 10);
+        int hourUnitsPlace = hour % 10;
+        return ((minuteUnitsPlace - minuteTensPlace) == (minuteTensPlace - hourUnitsPlace)) && ((minuteTensPlace - hourUnitsPlace) == (hourUnitsPlace - hourTensPlace));
     }
 }

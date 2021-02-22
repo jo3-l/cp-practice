@@ -28,7 +28,6 @@ public class J3 {
 
     private static class DistanceCalculator {
         private final int[] distanceArray;
-        // Cache of distances between cities, so we don't perform the computation every time.
         private final int[][] distanceCache = new int[5][5];
 
         public DistanceCalculator(int[] distanceArray) {
@@ -37,7 +36,6 @@ public class J3 {
 
         public int getDistanceBetween(int a, int b) {
             if (a == b) return 0;
-            // We want a to be the smaller integer and b to be the larger one, so swap them if necessary.
             if (a > b) {
                 int tmp = a;
                 a = b;

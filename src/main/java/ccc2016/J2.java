@@ -24,7 +24,6 @@ public class J2 {
         }
 
         int firstColumnTotal = -1;
-        // Check columns
         for (int i = 0; i < 4; i++) {
             int columnTotal = 0;
             for (int j = 0; j < 4; j++) columnTotal += matrix[j][i];

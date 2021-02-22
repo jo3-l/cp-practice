@@ -41,20 +41,18 @@ public class J5 {
                 int levelBreadth = queuedMoves.size();
                 while (levelBreadth-- > 0) {
                     Square pair = queuedMoves.poll();
-
                     int x = pair.x;
                     int y = pair.y;
 
-                    if (
-                            queueMove(x - 1,  y + 2)
+                    boolean ok = queueMove(x - 1, y + 2)
                             || queueMove(x + 1, y + 2)
                             || queueMove(x + 2, y + 1)
                             || queueMove(x + 2, y - 1)
                             || queueMove(x + 1, y - 2)
                             || queueMove(x - 1, y - 2)
                             || queueMove(x - 2, y - 1)
-                            || queueMove(x - 2, y + 1)
-                    ) return movesMade;
+                            || queueMove(x - 2, y + 1);
+                    if (ok) return movesMade;
                 }
 
                 ++movesMade;

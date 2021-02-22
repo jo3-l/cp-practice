@@ -3,7 +3,16 @@ package ccc2013;
 import java.util.*;
 
 public class J5 {
-    private static final Set<String> ALL_GAMES = new HashSet<>(Arrays.asList("1:2", "1:3", "1:4", "2:3", "2:4", "3:4"));
+    private static final Set<TeamPairing> ALL_GAMES = new HashSet<>(
+            Arrays.asList(
+                    new TeamPairing(1, 2),
+                    new TeamPairing(1, 3),
+                    new TeamPairing(1, 4),
+                    new TeamPairing(2, 3),
+                    new TeamPairing(2, 4),
+                    new TeamPairing(3, 4)
+            )
+    );
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -11,7 +20,7 @@ public class J5 {
         int gamesPlayed = scanner.nextInt();
         scanner.skip("\n");
 
-        Set<String> playedGames = new HashSet<>();
+        Set<TeamPairing> playedGames = new HashSet<>();
         Map<Integer, Integer> teamPoints = new HashMap<>();
         for (int i = 0; i < gamesPlayed; i++) {
             String[] parts = scanner.nextLine().split(" ");
@@ -29,35 +38,31 @@ public class J5 {
                 teamPoints.merge(teamB, 3, Integer::sum);
             }
 
-            playedGames.add(generateKey(teamA, teamB));
+            playedGames.add(new TeamPairing(teamA, teamB));
         }
 
-        Set<String> remainingGames = new HashSet<>(ALL_GAMES);
+        Set<TeamPairing> remainingGames = new HashSet<>(ALL_GAMES);
         remainingGames.removeIf(playedGames::contains);
 
         Queue<Map<Integer, Integer>> possibleFinalPoints = new LinkedList<>();
         possibleFinalPoints.add(teamPoints);
-        for (String gameKey : remainingGames) {
-            String[] parts = gameKey.split(":");
-            int teamA = Integer.parseInt(parts[0]);
-            int teamB = Integer.parseInt(parts[1]);
-
+        for (TeamPairing pairing : remainingGames) {
             int levelBreadth = possibleFinalPoints.size();
+            // Process all nodes in the current level before moving on.
             while (levelBreadth-- > 0) {
                 Map<Integer, Integer> scores = possibleFinalPoints.poll();
-                assert scores != null;
 
                 Map<Integer, Integer> pointsAfterTeamAWin = new HashMap<>(scores);
-                pointsAfterTeamAWin.merge(teamA, 3, Integer::sum);
+                pointsAfterTeamAWin.merge(pairing.teamA, 3, Integer::sum);
                 possibleFinalPoints.add(pointsAfterTeamAWin);
 
                 Map<Integer, Integer> pointsAfterTeamBWin = new HashMap<>(scores);
-                pointsAfterTeamBWin.merge(teamB, 3, Integer::sum);
+                pointsAfterTeamBWin.merge(pairing.teamB, 3, Integer::sum);
                 possibleFinalPoints.add(pointsAfterTeamBWin);
 
                 Map<Integer, Integer> pointsAfterTie = new HashMap<>(scores);
-                pointsAfterTie.merge(teamA, 1, Integer::sum);
-                pointsAfterTie.merge(teamB, 1, Integer::sum);
+                pointsAfterTie.merge(pairing.teamA, 1, Integer::sum);
+                pointsAfterTie.merge(pairing.teamB, 1, Integer::sum);
                 possibleFinalPoints.add(pointsAfterTie);
             }
         }
@@ -77,7 +82,31 @@ public class J5 {
         System.out.println(scenariosWhereFavoriteTeamWins);
     }
 
-    private static String generateKey(int teamA, int teamB) {
-        return Math.min(teamA, teamB) + ":" + Math.max(teamA, teamB);
+    private static class TeamPairing {
+        public final int teamA;
+        public final int teamB;
+
+        public TeamPairing(int teamA, int teamB) {
+            if (teamA > teamB) {
+                int tmp = teamB;
+                teamB = teamA;
+                teamA = tmp;
+            }
+
+            this.teamA = teamA;
+            this.teamB = teamB;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(teamA, teamB);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof TeamPairing)) return false;
+            TeamPairing objCast = (TeamPairing) obj;
+            return objCast.teamA == teamA && objCast.teamB == teamB;
+        }
     }
 }

@@ -19,10 +19,9 @@ public class J4 {
         }
 
         List<List<String>> matrix = Arrays.asList(Arrays.asList("1", "2"), Arrays.asList("3", "4"));
-        // 2 horizontal flips result in no change, so do 2 vertical flips. As such, we only need to modify the matrix
-        // if the number of flips was an odd number.
-        if ((horizontalFlips & 1) != 0) Collections.reverse(matrix);
-        if ((verticalFlips & 1) != 0) {
+
+        if (horizontalFlips % 2 != 0) Collections.reverse(matrix);
+        if (verticalFlips % 2 != 0) {
             Collections.reverse(matrix.get(0));
             Collections.reverse(matrix.get(1));
         }

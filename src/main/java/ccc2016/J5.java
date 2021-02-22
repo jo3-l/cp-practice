@@ -21,15 +21,12 @@ public class J5 {
         if (asksForMinimum) {
             int total = 0;
             for (int i = 0; i < citizenCount; i++) total += Math.max(dmojistanCitizens[i], peglandCitizens[i]);
-
             System.out.println(total);
             return;
         }
 
         int total = 0;
-        for (int i = 0; i < citizenCount; i++) {
-            total += Math.max(dmojistanCitizens[i], peglandCitizens[citizenCount - i - 1]);
-        }
+        for (int i = 0; i < citizenCount; i++) total += Math.max(dmojistanCitizens[i], peglandCitizens[citizenCount - i - 1]);
         System.out.println(total);
     }
 }

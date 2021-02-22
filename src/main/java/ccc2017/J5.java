@@ -11,19 +11,11 @@ public class J5 {
 
         int[] woodLengths = new int[woodCount];
         StringBuilder buffer = new StringBuilder();
-        outer:
         for (int i = 0; i < woodCount; i++) {
-            while (true) {
-                int c = reader.read();
-                if (Character.isDigit(c)) {
-                    buffer.append((char) c);
-                    continue;
-                }
-                int len = Integer.parseInt(buffer.toString());
-                woodLengths[i] = len;
-                buffer.setLength(0);
-                continue outer;
-            }
+            for (int c = reader.read(); Character.isDigit(c); c = reader.read()) buffer.append((char) c);
+            int len = Integer.parseInt(buffer.toString());
+            woodLengths[i] = len;
+            buffer.setLength(0);
         }
     }
 }

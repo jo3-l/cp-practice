@@ -19,7 +19,6 @@ public class J3 {
 
     private static boolean isPalindrome(String word) {
         int len = word.length();
-        // 1-letter words are always palindromes.
         if (len == 1) return true;
 
         int mid = Math.floorDiv(len, 2);
