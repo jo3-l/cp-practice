@@ -1,5 +1,5 @@
 <div align='center'>
-	<h1 align='center'>Canadian Computing Competition Practice</h1>
+	<h1 align='center'>Competitive Programming Practice</h1>
 	<img
 	    src="https://img.shields.io/lgtm/grade/java/github/jo3-l/ccc-java?style=for-the-badge"
 	    alt="Code Quality"
@@ -20,9 +20,9 @@
 
 ## What is this?
 
-This is a repository to store my solutions to CCC problem sets for past years.<br>
-Solutions are written in Java 8 and tested with the CCC online grader.<br>
-It is a sister repository to my [Python 3 solution repository](https://github.com/jo3-l/ccc).
+This is a repository to store code I've written to practice competitive programming, written in Java 8.<br>
+It mostly consists of CCC Junior Division solutions in past years, though I hope to do some Senior division questions in
+the near future / questions from other places.
 
 ## Status
 
