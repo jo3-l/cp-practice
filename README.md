@@ -1,19 +1,19 @@
 <div align='center'>
 	<h1 align='center'>Competitive Programming Practice</h1>
 	<img
-	    src="https://img.shields.io/lgtm/grade/java/github/jo3-l/ccc-java?style=for-the-badge"
+	    src="https://img.shields.io/lgtm/grade/java/github/jo3-l/cp-practice?style=for-the-badge"
 	    alt="Code Quality"
 	/>
 	<img
-	    src="https://img.shields.io/github/license/jo3-l/ccc-java?style=for-the-badge"
+	    src="https://img.shields.io/github/license/jo3-l/cp-practice?style=for-the-badge"
 	    alt="License"
 	/>
 	<img
-	    src="https://img.shields.io/github/workflow/status/jo3-l/ccc-java/Continuous%20Integration.svg?style=for-the-badge"
+	    src="https://img.shields.io/github/workflow/status/jo3-l/cp-practice/Continuous%20Integration.svg?style=for-the-badge"
 	    alt="Build Status"
 	/>
 	<img
-		src='https://img.shields.io/github/languages/top/jo3-l/ccc-java.svg?style=for-the-badge'
+		src='https://img.shields.io/github/languages/top/jo3-l/cp-practice.svg?style=for-the-badge'
 		alt='Language'
 	/>
 </div>
