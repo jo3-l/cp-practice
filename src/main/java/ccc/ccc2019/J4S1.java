@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class J4 {
+public class J4S1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int verticalFlips = 0;
