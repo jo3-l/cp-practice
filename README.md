@@ -103,8 +103,8 @@ the near future / questions from other places.
 | J2       | 15/15     | 
 | J3       | 15/15     | 
 | J4       | 15/15     | 
-| J5       | 15/15      | 
-| Total    | 15/75     | 
+| J5       | 15/15     | 
+| Total    | 75/75     | 
 </details>
 
 **CCC '16**<br>
