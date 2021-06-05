@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-public class J5 {
+public class J5S2 {
     private static final int END_ROOM_TOKEN = -1;
 
     public static void main(String[] args) throws IOException {

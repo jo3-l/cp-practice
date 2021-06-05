@@ -2,7 +2,7 @@ package ccc.ccc2018;
 
 import java.util.Scanner;
 
-public class J4 {
+public class J4S2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int tableSize = scanner.nextInt();
