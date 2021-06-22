@@ -1,14 +1,10 @@
 package binarysearch;
 
-import java.util.BitSet;
-
 public class DetectOnlyDuplicate {
     public int solve(int[] nums) {
-        BitSet b = new BitSet(nums.length);
-        for (int n : nums) {
-            if (b.get(n)) return n;
-            b.set(n);
-        }
-        return -1;
+        int total = 0;
+        int want = (nums.length * (nums.length - 1))  >> 1;
+        for (int num : nums) total += num;
+        return total - want;
     }
 }
