@@ -3,7 +3,7 @@ package ccc.ccc2016;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class J5 {
+public class J5S2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
