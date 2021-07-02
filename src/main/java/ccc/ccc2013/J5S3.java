@@ -2,7 +2,7 @@ package ccc.ccc2013;
 
 import java.util.*;
 
-public class J5 {
+public class J5S3 {
     private static final Set<TeamPairing> ALL_GAMES = new HashSet<>(
             Arrays.asList(
                     new TeamPairing(1, 2),

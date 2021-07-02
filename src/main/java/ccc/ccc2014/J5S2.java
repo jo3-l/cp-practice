@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class J5 {
+public class J5S2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int studentCount = scanner.nextInt();
