@@ -49,15 +49,13 @@ public class S5 {
                                 return;
                             }
 
-                            q.add(w);
-                            s.add(w);
+                            if (q.add(w)) s.add(w);
                         }
                     }
                 }
             }
             step++;
         }
-        System.out.println(-1);
     }
 
     private static int clearBitsInRange(int b, int lo, int hi) {
