@@ -1,5 +1,6 @@
 package binarysearch;
 
+// TODO: This is broken, but I have no idea why. Asked in the #coding-questions channel on binarysearch; hopefully someone will help : )
 public class MaximumProductPathInMatrix {
     public int solve(int[][] matrix) {
         int MOD = 1_000_000_007;
