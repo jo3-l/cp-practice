@@ -1,65 +1,57 @@
 package templates;
 
+// Implementation from https://codeforces.com/blog/entry/18051
 public class SegmentTree {
-    // for a vertex at index i, its left subtree is at i * 2, while its right subtree is at i * 2 + 1.
-    private final int[] tree;
-    private final int N;
+    private int[] data; // node i's children are at i * 2 (left), i * 2 + 1 (right)
+    private int len;
 
     public SegmentTree(int[] arr) {
-        N = arr.length;
-        tree = new int[N * 4];
-        build(arr, 1, 0, N - 1);
+        len = arr.length;
+        data = new int[arr.length * 2];
+        init(arr);
     }
 
-    private void build(int[] arr, int idx, int lo, int hi) {
-        if (lo == hi) {
-            // leaf
-            tree[idx] = arr[lo];
-        } else {
-            int mid = (lo + hi) >> 1;
-            // build left subtree
-            build(arr, idx << 1, lo, mid);
-            // build right subtree
-            build(arr, (idx << 1) + 1, mid + 1, hi);
-            // merge left and right subtree
-            tree[idx] = merge(tree[idx << 1], tree[(idx << 1) + 1]);
+    // sets value at index
+    public void modify(int index, int value) {
+        data[index += len] = value; // set the corresponding leaf node's value
+        // set parent node values
+        for (; index > 1; index /= 2) {
+            data[index / 2] = data[index] + data[index ^ 1]; // sum up child nodes
         }
     }
 
-    public int sum(int lo, int hi) {
-        return doSum(1, 0, N - 1, lo, hi);
-    }
+    // sums elements in [l, r)
+    public int query(int l, int r) {
+        int result = 0;
 
-    private int doSum(int idx, int curLo, int curHi, int lo, int hi) {
-        if (lo > hi) return 0;
-        // exact match?
-        if (lo == curLo && hi == curHi) return tree[idx];
-        int mid = (curLo + curHi) >> 1;
-        return merge(
-                // left subtree
-                doSum(idx << 1, curLo, mid, lo, Math.min(hi, mid)),
-                // right subtree
-                doSum((idx << 1) + 1, mid + 1, curHi, Math.max(lo, mid + 1), hi)
-        );
-    }
+        l += len;
+        r += len;
+        while (l < r) {
+            // is the left interval border odd?
+            if ((l & 1) != 0) {
+                // l is the right child, include it but not its parent
+                result += data[l++];
+            }
+            // is the right interval border odd?
+            if ((r & 1) != 0) {
+                // r is the right child, include the left child instead and skip its parent
+                result += data[--r];
+            }
 
-    public void update(int pos, int newValue) {
-        doUpdate(1, 0, N - 1, pos, newValue);
-    }
-
-    public void doUpdate(int idx, int lo, int hi, int pos, int newValue) {
-        if (lo == hi) {
-            // vertex
-            tree[idx] = newValue;
-        } else {
-            int mid = (lo + hi) >> 1;
-            if (pos <= mid) doUpdate(idx << 1, lo, mid, pos, newValue); // left subtree
-            else doUpdate((idx << 1) + 1, mid + 1, hi, pos, newValue); // right subtree
-            tree[idx] = merge(tree[idx << 1], tree[(idx << 1) + 1]); // recompute current vertex value
+            // go to parents
+            l /= 2;
+            r /= 2;
         }
+
+        return result;
     }
 
-    private int merge(int x, int y) {
-        return x + y;
+    private void init(int[] arr) {
+        // for (int i = 0; i < arr.length; i++) data[i + len] = arr[i];
+        System.arraycopy(arr, 0, data, len, arr.length); // set leaf node values
+        // set parent node values
+        for (int i = len - 1; i > 0; i--) {
+            data[i] = data[i * 2] + data[i * 2 + 1]; // sum up child nodes
+        }
     }
 }
