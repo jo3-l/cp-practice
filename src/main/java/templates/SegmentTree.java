@@ -7,35 +7,43 @@ public class SegmentTree {
 
     public SegmentTree(int[] arr) {
         len = arr.length;
-        data = new int[arr.length * 2];
+        data = new int[len * 2];
         init(arr);
     }
 
     // sets value at index
     public void modify(int index, int value) {
-        data[index += len] = value; // set the corresponding leaf node's value
-        // set parent node values
+        index += len; // get the leaf node position
+        data[index] = value; // set the corresponding leaf node's value
         for (; index > 1; index /= 2) {
-            data[index / 2] = data[index] + data[index ^ 1]; // sum up child nodes
+            data[index / 2] = data[index] + data[index ^ 1];
         }
     }
 
     // sums elements in [l, r)
     public int query(int l, int r) {
-        int result = 0;
+        int res = 0;
 
+        // start at the leaf nodes for l and r.
         l += len;
         r += len;
         while (l < r) {
             // is the left interval border odd?
-            if ((l & 1) != 0) {
-                // l is the right child, include it but not its parent
-                result += data[l++];
+            if ((l & 1) == 1) {
+                // odd index means that it must be the right child of its parent.
+                // since it is the right child, and it's the left interval border (inclusive), include it.
+                // increment it so we don't include its parent (as that would count it twice). instead, move
+                // right.
+                res += data[l++];
             }
+
             // is the right interval border odd?
-            if ((r & 1) != 0) {
-                // r is the right child, include the left child instead and skip its parent
-                result += data[--r];
+            if ((r & 1) == 1) {
+                // similar logic: r is the right child of its parent.
+                // in this case, r is the right interval border (exclusive), so we shouldn't include it.
+                // similarly, its parent should not be included as that would include the right boundary value.
+                // instead, move left.
+                res += data[--r];
             }
 
             // go to parents
@@ -43,15 +51,15 @@ public class SegmentTree {
             r /= 2;
         }
 
-        return result;
+        return res;
     }
 
     private void init(int[] arr) {
-        // for (int i = 0; i < arr.length; i++) data[i + len] = arr[i];
-        System.arraycopy(arr, 0, data, len, arr.length); // set leaf node values
+        for (int i = 0; i < arr.length; i++) data[i + len] = arr[i]; // set leaf node values
         // set parent node values
         for (int i = len - 1; i > 0; i--) {
-            data[i] = data[i * 2] + data[i * 2 + 1]; // sum up child nodes
+            // the child nodes of node i are i*2 and i*2+1, sum them up to get the parent value
+            data[i] = data[i * 2] + data[i * 2 + 1];
         }
     }
 }

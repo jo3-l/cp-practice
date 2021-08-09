@@ -5,9 +5,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// fast i/o using BufferedReader and StringTokenizer
+// NOTE: use BufferedWriter for fast output (remember to flush())
 public class FastScanner {
-    private StringTokenizer st;
-    private BufferedReader br;
+    public StringTokenizer st;
+    public BufferedReader br;
 
     public FastScanner(InputStream s) {
         br = new BufferedReader(new InputStreamReader(s));

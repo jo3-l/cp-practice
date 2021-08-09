@@ -2,8 +2,13 @@ package templates;
 
 import java.util.*;
 
+// Prim's algorithm.
+// starts by choosing a single vertex. then, the minimum weight edge from this vertex is selected,
+// and then the minimum weight edge that connects to an already selected vertex, and so on until
+// all vertices are selected.
 public class PrimsAlgorithm {
-    public static MinimumSpanningTree prim(Map<Integer, Vertex> graph) {
+    // prim's algorithm for dense graphs, with O(n^2) complexity
+    public static MinimumSpanningTree primOnDenseGraph(Map<Integer, Vertex> graph) {
         int totalCost = 0;
         List<Integer> path = new ArrayList<>();
         Set<Integer> selected = new HashSet<>();
@@ -16,31 +21,38 @@ public class PrimsAlgorithm {
         // iterate until we've found a MST or confirmed it's impossible
         int vertexCount = graph.size();
         while (vertexCount-- > 0) {
-            // find node with minimum distance
-            int v = -1;
-            for (int j : graph.keySet()) {
-                if (!selected.contains(j) &&
-                        (v == -1 || minEdges.getOrDefault(j, Edge.NULL).cost < minEdges.getOrDefault(v, Edge.NULL).cost)) {
-                    v = j;
+            // find minimum weight edge from
+            int minWeightEdge = -1;
+            int minWeightEdgeCost = Integer.MAX_VALUE;
+            for (int v : graph.keySet()) {
+                if (selected.contains(v)) continue; // already in MST, can't choose it
+                if (
+                        minWeightEdge == -1 // no node selected for current iteration so far
+                                || minEdges.getOrDefault(v, Edge.NULL).cost < minWeightEdgeCost // weight for this edge is better than the current one selected
+                ) {
+                    minWeightEdge = v;
+                    minWeightEdgeCost = minEdges.getOrDefault(v, Edge.NULL).cost;
                 }
             }
 
-            Edge minEdge = minEdges.get(v);
+            // get minimum weight edge for the vertex we chose
+            Edge minEdge = minEdges.get(minWeightEdge);
             if (minEdge == null) {
                 return null; // no MST
             }
 
             // mark as selected and update cost
-            selected.add(v);
+            selected.add(minWeightEdge);
             totalCost += minEdge.cost;
             if (minEdge.toId != -1) path.add(minEdge.toId);
 
-            // relax distance of remaining nodes
-            Vertex vv = graph.get(v);
+            // since we added an edge, some minimum edges may have to be changed
+            Vertex v = graph.get(minWeightEdge);
             for (int to : graph.keySet()) {
-                int curCost = vv.edges.getOrDefault(to, Edge.NULL).cost;
-                if (curCost < minEdges.getOrDefault(to, Edge.NULL).cost) {
-                    minEdges.put(to, new Edge(v, curCost));
+                // did the cost improve?
+                int cost = v.edges.getOrDefault(to, Edge.NULL).cost;
+                if (cost < minEdges.getOrDefault(to, Edge.NULL).cost) {
+                    minEdges.put(to, new Edge(minWeightEdge, cost));
                 }
             }
         }
