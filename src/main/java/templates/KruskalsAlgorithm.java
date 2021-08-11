@@ -22,7 +22,7 @@ public class KruskalsAlgorithm {
                 dsu.union(e.from, e.to);
             }
         }
-        return mst;
+        return mst.edges.size() == N - 1 ? mst : null;
     }
 
     private static class MinimumSpanningTree {

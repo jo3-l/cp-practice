@@ -16,6 +16,14 @@ public class DijkstrasAlgorithm {
         Map<Vertex, Vertex> predecessors = new HashMap<>();
         while (!queue.isEmpty()) {
             VertexWithCost cur = queue.poll();
+            if (cur.cost != lowestCosts.getOrDefault(cur.vertex, Integer.MAX_VALUE)) {
+                // See https://cp-algorithms.com/graph/dijkstra_sparse.html.
+                // Essentially, when we find a path to some vertex that is better than
+                // the current one, we'd like to remove all old paths to that vertex.
+                // However that is not possible with a priority queue, so we will just
+                // skip it if the cost is not the lowest instead.
+                continue;
+            }
             for (Edge edge : cur.vertex.edges) {
                 // current best cost found so far
                 int currentLowestCost = lowestCosts.getOrDefault(edge.to, Integer.MAX_VALUE);
@@ -23,7 +31,7 @@ public class DijkstrasAlgorithm {
                 int cost = lowestCosts.get(cur.vertex) + edge.cost;
                 // is there an improvement in cost?
                 if (cost < currentLowestCost) {
-                    // update data
+                    // relax cost
                     predecessors.put(edge.to, cur.vertex);
                     lowestCosts.put(edge.to, cost);
                     queue.add(new VertexWithCost(edge.to, cost));

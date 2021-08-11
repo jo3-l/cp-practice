@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 // fast i/o using BufferedReader and StringTokenizer
-// NOTE: use BufferedWriter for fast output (remember to flush())
 public class FastScanner {
     public StringTokenizer st;
     public BufferedReader br;
@@ -20,7 +19,7 @@ public class FastScanner {
         try {
             return br.readLine();
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -59,7 +58,7 @@ public class FastScanner {
             try {
                 st = new StringTokenizer(br.readLine());
             } catch (Exception e) {
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         }
         return st.nextToken();

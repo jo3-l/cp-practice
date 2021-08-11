@@ -41,6 +41,8 @@ public class BinarySearch {
 
         // this check (arr[lo] < n) can be avoided if we keep an auxiliary variable res initialized to -1 and assign
         // it to mid whenever we find a match, but this is simpler in most cases.
+        // also note that when using an approach like described above with an auxiliary variable, one
+        // has to be cautious about lo==hi at the start (as can happen with 1-element arrays).
         return arr[lo] < n ? lo : -1;
     }
 
