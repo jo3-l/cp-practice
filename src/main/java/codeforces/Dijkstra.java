@@ -29,11 +29,12 @@ public class Dijkstra {
         int[] predecessors = new int[n + 1];
         int[] res = new int[n + 1];
         Arrays.fill(res, Integer.MAX_VALUE);
-        res[0] = 0;
+        res[1] = 0;
         Queue<VertexWithCost> queue = new PriorityQueue<>(Comparator.comparing(v -> v.cost));
         queue.add(new VertexWithCost(1, 0));
         while (!queue.isEmpty()) {
             VertexWithCost v = queue.poll();
+            if (res[v.vertex] != v.cost) continue;
             if (edges[v.vertex] == null) continue;
             for (Edge e : edges[v.vertex]) {
                int best = res[e.to];
