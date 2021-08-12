@@ -2,7 +2,7 @@ package ccc.ccc2009;
 
 import java.util.*;
 
-public class J5 {
+public class J5S3 {
     private static Map<Integer, User> users = new HashMap<>();
 
     public static void main(String[] args) {
