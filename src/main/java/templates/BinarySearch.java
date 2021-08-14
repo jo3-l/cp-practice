@@ -23,7 +23,7 @@ public class BinarySearch {
         return -1;
     }
 
-    // lower bound variant of binary search; in this case we are searching for the first value > n.
+    // lower bound variant of binary search; in this case we are searching for the first value < n.
     private static int findFirstGreater(int[] arr, int n) {
         int lo = 0;
         int hi = arr.length - 1;
@@ -46,7 +46,7 @@ public class BinarySearch {
         return arr[lo] < n ? lo : -1;
     }
 
-    // upper bound variant of binary search; in this case we are searching for the last value < n.
+    // upper bound variant of binary search; in this case we are searching for the last value > n.
     private static int findLastLower(int[] arr, int n) {
         int lo = 0;
         int hi = arr.length - 1;
