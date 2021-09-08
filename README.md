@@ -1,10 +1,6 @@
 <div align='center'>
 	<h1 align='center'>Competitive Programming Practice</h1>
 	<img
-	    src="https://img.shields.io/lgtm/grade/java/github/jo3-l/cp-practice?style=for-the-badge"
-	    alt="Code Quality"
-	/>
-	<img
 	    src="https://img.shields.io/github/license/jo3-l/cp-practice?style=for-the-badge"
 	    alt="License"
 	/>
