@@ -18,10 +18,7 @@
 	/>
 </div>
 
-## What is this?
-
-A collection of my solutions to the CCC and various other lists of CP questions, written in Java 8.<br>
-Feel free to take a look around, perhaps there's something you're looking for (in particular, there's complete solutions to all CCC Junior questions from 2006 through 2021).
+> A place to store my solutions to the CCC and various other collections of CP problems, written in Java 8 and C++ 17.<br>
 
 ## Author
 
