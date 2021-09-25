@@ -14,7 +14,7 @@
 	/>
 </div>
 
-> A place to store my solutions to the CCC and various other collections of CP problems, written in Java 8 and C++ 17.<br>
+> A place to store my solutions to the CCC and various other collections of CP problems, written in Java 8 and C++ 14.<br>
 
 ## Author
 
