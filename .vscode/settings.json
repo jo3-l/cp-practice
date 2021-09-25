@@ -1,0 +1,6 @@
+{
+  "code-runner.executorMap": {
+    "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt -Wall -Wextra && $dir$fileNameWithoutExt"
+  },
+  "code-runner.runInTerminal": true
+}

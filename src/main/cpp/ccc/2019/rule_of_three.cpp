@@ -1,3 +1,16 @@
+// Full marks on the original CCC test data but TLEs with additional data from DMOJ (despite quite a
+// few optimizations). General idea: brute force using a breadth-first search with several
+// optimizations:
+// 	- Meet-in-the-middle trick for high step counts
+// 	- Duplicate strings at the same step are discarded
+// 	- Reversed singly-linked list is used to store history so appending a value to the end of
+// the list without modifying the original can be done in O(1)
+// 	- Binary strings are represented as unsigned 128-bit integers for faster search (O(n)) +
+// replace (O(1))
+// 	- Maximum possible length of the string is computed and strings going over that length
+// are pruned
+// 	- Strings that cannot possibly turn into the target string after any seqeuence of rules are
+// discarded
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -125,7 +138,6 @@ template <typename F> void search(int max_steps, F f) {
 			pair<uint128, HistoryNode *> state = q.front();
 			int len = get_len(state.first);
 			q.pop_front();
-			// check all the rules...
 			for (int i = 0; i < 3; i++) {
 				Rule &r = rules[i];
 				int max_start_pos = len - r.from.size();
@@ -172,9 +184,8 @@ int main() {
 	cout.tie(nullptr);
 	cin >> rules[0].from >> rules[0].to >> rules[1].from >> rules[1].to >> rules[2].from >>
 	    rules[2].to >> target_step >> initial_str >> final_str;
-	rules[0].init();
-	rules[1].init();
-	rules[2].init();
+	for (Rule &r : rules)
+		r.init();
 	upd_max_len();
 
 	uint128 final_enc = encode<uint128, true>(final_str);
