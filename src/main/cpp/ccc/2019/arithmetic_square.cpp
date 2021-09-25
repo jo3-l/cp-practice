@@ -2,7 +2,7 @@
 
 using namespace std;
 
-const int MAX_ATTRACTIONS = 1'000'000'000;
+const int MN = 1'000'000'000;
 const int X = 0x3f3f3f3f;
 
 int original_grid[3][3];
@@ -31,8 +31,7 @@ void fill_col(int c) {
 bool check() {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if (grid[i][j] > MAX_ATTRACTIONS || grid[i][j] < -MAX_ATTRACTIONS)
-				return false;
+			if (grid[i][j] > MN || grid[i][j] < -MN) return false;
 		}
 
 		if (grid[i][2] - grid[i][1] != grid[i][1] - grid[i][0] ||
@@ -57,7 +56,7 @@ int main() {
 
 	random_device rd;
 	mt19937 rng(rd());
-	uniform_int_distribution<int> uni(-MAX_ATTRACTIONS, MAX_ATTRACTIONS);
+	uniform_int_distribution<int> uni(-MN, MN);
 	while (!check()) {
 		memcpy(grid, original_grid, sizeof(original_grid));
 
