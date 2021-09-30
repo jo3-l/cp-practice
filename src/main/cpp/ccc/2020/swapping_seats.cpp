@@ -19,8 +19,7 @@ const int INF = 0x3f3f3f3f;
 
 template <typename T1, typename T2> struct pair_hash {
 	ull operator()(pair<T1, T2> const &p) const {
-		static const ull R =
-		    chrono::steady_clock::now().time_since_epoch().count();
+		static const ull R = chrono::steady_clock::now().time_since_epoch().count();
 		return hash<T1>{}(p.first ^ R ^ (p.first >> 16)) ^
 		       (hash<T2>{}(p.second ^ R ^ (p.first >> 16)) >> 1);
 	}
@@ -78,10 +77,8 @@ int main() {
 		for (int b_t = 1; b_t <= 2; b_t++) {
 			int c_t = 3 - b_t;
 
-			int a_end = a_start + t_cnt[a_t],
-			    b_start = a_end % table.size(),
-			    b_end = b_start + t_cnt[b_t],
-			    c_start = b_end % table.size(),
+			int a_end = a_start + t_cnt[a_t], b_start = a_end % table.size(),
+			    b_end = b_start + t_cnt[b_t], c_start = b_end % table.size(),
 			    c_end = c_start + t_cnt[c_t];
 
 			int a_in_b = query_type(a_t, b_start, b_end),
@@ -89,8 +86,7 @@ int main() {
 			    c_in_a = query_type(c_t, a_start, a_end),
 			    c_in_b = query_type(c_t, b_start, b_end);
 			int a_c_swaps = min(a_in_c, c_in_a);
-			ans = min(ans, a_in_b + a_in_c + c_in_b + c_in_a -
-					   a_c_swaps);
+			ans = min(ans, a_in_b + a_in_c + c_in_b + c_in_a - a_c_swaps);
 		};
 	}
 	cout << ans << '\n';

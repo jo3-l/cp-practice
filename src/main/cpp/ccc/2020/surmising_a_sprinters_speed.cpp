@@ -41,10 +41,9 @@ int main() {
 
 	double speed = DBL_MIN;
 	for (int i = 0; i < n - 1; i++) {
-		int dist =
-		    abs(observations[i + 1].second - observations[i].second);
-		speed = max(speed, dist / (double)(observations[i + 1].first -
-						   observations[i].first));
+		int dist = abs(observations[i + 1].second - observations[i].second);
+		speed =
+		    max(speed, dist / (double)(observations[i + 1].first - observations[i].first));
 	}
 	cout << fixed << speed << endl;
 

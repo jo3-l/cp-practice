@@ -1,6 +1,6 @@
 {
   "code-runner.executorMap": {
-    "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt -Wall -Wextra && $dir$fileNameWithoutExt"
+    "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt -Wall -Wextra -Wmisleading-indentation -Wmaybe-uninitialized -Wshadow -pedantic -std=c++14 -Wformat=2 -Wfloat-equal -Wsign-conversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond && $dir$fileNameWithoutExt"
   },
   "code-runner.runInTerminal": true
 }

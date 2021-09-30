@@ -3,12 +3,12 @@
 
 using namespace std;
 
-const int MAX_ATTRACTIONS = 200'000;
+const int MN = 200'000;
 int max_station, walkway_count, total_days;
-vector<int> walkways[MAX_ATTRACTIONS + 1];
-int station_mp[MAX_ATTRACTIONS + 1]; // station[n] is the current number of the nth station
+vector<int> walkways[MN + 1];
+int station_mp[MN + 1]; // station[n] is the current number of the nth station
 
-int best[MAX_ATTRACTIONS + 1];
+int best[MN + 1];
 
 int solve() {
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;

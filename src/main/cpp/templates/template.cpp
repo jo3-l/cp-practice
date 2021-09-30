@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 
-#define dbg(x) cout << #x << (x) << '\n'
+#define dbg(x) cout << #x << " = " << (x) << '\n'
 
 using namespace std;
 
