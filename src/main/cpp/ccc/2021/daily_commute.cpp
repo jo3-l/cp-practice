@@ -1,14 +1,14 @@
-// 7/15 answer using Djikstra's.
+// 7/15 using Djikstra's; TLEs on the rest :/
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int MN = 200'000;
+constexpr int MN = 200'001;
 int max_station, walkway_count, total_days;
-vector<int> walkways[MN + 1];
-int station_mp[MN + 1]; // station[n] is the current number of the nth station
+vector<int> walkways[MN];
+int station_mp[MN]; // station[n] is the current number of the nth station
 
-int best[MN + 1];
+int best[MN];
 
 int solve() {
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;

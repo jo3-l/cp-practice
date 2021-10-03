@@ -1,6 +1,5 @@
-// Full marks on the original CCC test data but TLEs with additional data from DMOJ (despite quite a
-// few optimizations). General idea: brute force using a breadth-first search with several
-// optimizations:
+// Full marks on the original CCC test data but TLEs with additional data from DMOJ. General idea: brute force using a
+// breadth-first search with several optimizations:
 // 	- Meet-in-the-middle trick for high step counts
 // 	- Duplicate strings at the same step are discarded
 // 	- Reversed singly-linked list is used to store history so appending a value to the end of
@@ -42,14 +41,10 @@ struct Rule {
 	void init() {
 		from_enc = encode<int, false>(from);
 		to_enc = encode<int, false>(to);
-		fwd_a_delta =
-		    (int)count(to.begin(), to.end(), 'A') - count(from.begin(), from.end(), 'A');
-		fwd_b_delta =
-		    (int)count(to.begin(), to.end(), 'B') - count(from.begin(), from.end(), 'B');
-		rev_a_delta =
-		    (int)count(from.begin(), from.end(), 'A') - count(to.begin(), to.end(), 'A');
-		rev_b_delta =
-		    (int)count(from.begin(), from.end(), 'B') - count(to.begin(), to.end(), 'B');
+		fwd_a_delta = (int)count(to.begin(), to.end(), 'A') - count(from.begin(), from.end(), 'A');
+		fwd_b_delta = (int)count(to.begin(), to.end(), 'B') - count(from.begin(), from.end(), 'B');
+		rev_a_delta = (int)count(from.begin(), from.end(), 'A') - count(to.begin(), to.end(), 'A');
+		rev_b_delta = (int)count(from.begin(), from.end(), 'B') - count(to.begin(), to.end(), 'B');
 	}
 
 	uint128 apply(uint128 s, int pos) {
@@ -112,10 +107,10 @@ void upd_ok(int steps) {
 	for (int r0 = 0; r0 <= steps; r0++) {
 		for (int r1 = 0; r0 + r1 <= steps; r1++) {
 			int r2 = steps - r0 - r1;
-			int a = final_a + rules[0].rev_a_delta * r0 + rules[1].rev_a_delta * r1 +
-				rules[2].rev_a_delta * r2;
-			int b = final_b + rules[0].rev_b_delta * r0 + rules[1].rev_b_delta * r1 +
-				rules[2].rev_b_delta * r2;
+			int a =
+			    final_a + rules[0].rev_a_delta * r0 + rules[1].rev_a_delta * r1 + rules[2].rev_a_delta * r2;
+			int b =
+			    final_b + rules[0].rev_b_delta * r0 + rules[1].rev_b_delta * r1 + rules[2].rev_b_delta * r2;
 			if (0 <= a && a < max_len && 0 <= b && a < max_len) {
 				ok[a][b] = true;
 			}
@@ -182,8 +177,8 @@ int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
-	cin >> rules[0].from >> rules[0].to >> rules[1].from >> rules[1].to >> rules[2].from >>
-	    rules[2].to >> target_step >> initial_str >> final_str;
+	cin >> rules[0].from >> rules[0].to >> rules[1].from >> rules[1].to >> rules[2].from >> rules[2].to >>
+	    target_step >> initial_str >> final_str;
 	for (Rule &r : rules)
 		r.init();
 	upd_max_len();
@@ -202,8 +197,8 @@ int main() {
 				uint128 cur = encode<uint128, true>(initial_str);
 				for (auto node : nodes) {
 					cur = rules[node->rule].apply(cur, node->pos);
-					cout << (node->rule + 1) << ' ' << (node->pos + 1) << ' '
-					     << decode(cur) << '\n';
+					cout << (node->rule + 1) << ' ' << (node->pos + 1) << ' ' << decode(cur)
+					     << '\n';
 				}
 
 				return true;
@@ -245,8 +240,7 @@ int main() {
 		uint128 cur = encode<uint128, true>(initial_str);
 		for (auto node : nodes) {
 			cur = rules[node->rule].apply(cur, node->pos);
-			cout << (node->rule + 1) << ' ' << (node->pos + 1) << ' ' << decode(cur)
-			     << '\n';
+			cout << (node->rule + 1) << ' ' << (node->pos + 1) << ' ' << decode(cur) << '\n';
 		}
 		return true;
 	});

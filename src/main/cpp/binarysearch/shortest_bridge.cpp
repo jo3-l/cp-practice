@@ -2,10 +2,10 @@
 
 using namespace std;
 
-const int MAX_N = 250;
-const int MAX_M = 250;
+const int MN = 250;
+const int MM = 250;
 
-bool island[MAX_N][MAX_M];
+bool island[MN][MM];
 
 const int di[] = {1, -1, 0, 0};
 const int dj[] = {0, 0, 1, -1};
@@ -17,8 +17,7 @@ int solve(vector<vector<int>> &matrix) {
 	std::function<void(int, int)> go = [&](int i, int j) {
 		for (int d = 0; d < 4; d++) {
 			int ni = i + di[d], nj = j + dj[d];
-			if (0 <= ni && ni < R && 0 <= nj && nj < C &&
-			    matrix[ni][nj] == 1 && !island[ni][nj]) {
+			if (0 <= ni && ni < R && 0 <= nj && nj < C && matrix[ni][nj] == 1 && !island[ni][nj]) {
 				island[ni][nj] = true;
 				go(ni, nj);
 			}

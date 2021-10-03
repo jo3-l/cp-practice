@@ -2,9 +2,9 @@
 
 using namespace std;
 
-const int MAX_N = 1e5;
+const int MN = 1e5;
 
-int tree[MAX_N << 1];
+int tree[MN << 1];
 int len = 0;
 
 // query on [i, j)

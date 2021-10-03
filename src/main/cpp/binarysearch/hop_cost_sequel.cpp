@@ -2,9 +2,9 @@
 
 using namespace std;
 
-const int MAX_N = 1e5;
+const int MN = 1e5;
 
-bool seen[MAX_N];
+bool seen[MN];
 unordered_map<int, vector<int>> pos;
 
 int solve(vector<int> &nums) {
@@ -28,8 +28,7 @@ int solve(vector<int> &nums) {
 			auto it = pos.find(nums[idx]);
 			if (it != pos.end()) {
 				for (int &to : it->second) {
-					if (to == (int)nums.size() - 1)
-						return k;
+					if (to == (int)nums.size() - 1) return k;
 					if (!seen[to]) {
 						seen[to] = true;
 						q.push(to);

@@ -2,15 +2,15 @@
 
 using namespace std;
 
-const int MAX_N = 1e5;
+const int MN = 1e5;
 
 class StockSpan {
       public:
-	StockSpan() : data(MAX_N << 1), day(0) {}
+	StockSpan() : data(MN << 1), day(0) {}
 
 	int next(int price) {
 		int cur_day = day++;
-		int i = MAX_N + cur_day;
+		int i = MN + cur_day;
 		data[i] = price;
 		for (; i > 1; i >>= 1)
 			data[i >> 1] = max(data[i], data[i ^ 1]);
@@ -35,7 +35,7 @@ class StockSpan {
 	// max on [l, r)
 	int query(int l, int r) {
 		int res = INT_MIN;
-		for (l += MAX_N, r += MAX_N; l < r; l >>= 1, r >>= 1) {
+		for (l += MN, r += MN; l < r; l >>= 1, r >>= 1) {
 			if (l & 1) res = max(res, data[l++]);
 			if (r & 1) res = max(res, data[--r]);
 		}

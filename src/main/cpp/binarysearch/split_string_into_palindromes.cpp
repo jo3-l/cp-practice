@@ -2,9 +2,9 @@
 
 using namespace std;
 
-const int MAX_N = 1000;
-bool dp[MAX_N][MAX_N];
-bool seen[MAX_N];
+const int MN = 1000;
+bool dp[MN][MN];
+bool seen[MN];
 
 int solve(string s) {
 	if (s.empty()) return 0;

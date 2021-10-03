@@ -7,14 +7,14 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	int p, n, r;
-	cin >> p >> n >> r;
-
-	int d = 0;
-	for (int s = n, k = r; s <= p; d++) {
-		s += n * k;
-		k *= r;
+	int a, b;
+	cin >> a >> b;
+	int i;
+	for (i = 3; a >= b; i++) {
+		a -= b;
+		swap(a, b);
 	}
-	cout << d << endl;
+
+	cout << i - 1 << '\n';
 	return 0;
 }

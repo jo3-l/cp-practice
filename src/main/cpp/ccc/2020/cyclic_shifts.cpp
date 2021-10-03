@@ -4,10 +4,8 @@ using namespace std;
 
 using ull = unsigned long long;
 
-struct hash_pair_hash {
-	ull operator()(pair<ull, ull> const &p) const {
-		return hash<ull>{}(p.first) ^ hash<ull>{}(p.second) >> 2;
-	}
+struct UllPairHash {
+	ull operator()(pair<ull, ull> const &p) const { return hash<ull>{}(p.first) ^ hash<ull>{}(p.second) >> 2; }
 };
 
 const int Q = 101;
@@ -16,7 +14,7 @@ const int P = 257;
 // Rabin-Karp, for fun.
 bool solve(string &s, string &t) {
 	if (t.size() < s.size()) return false;
-	unordered_set<pair<ull, ull>, hash_pair_hash> target_hashes;
+	unordered_set<pair<ull, ull>, UllPairHash> target_hashes;
 	ull hash_q = 0, hash_p = 0;
 	ull target_hash_q = 0, target_hash_p = 0;
 	ull max_q = 1, max_p = 1;
