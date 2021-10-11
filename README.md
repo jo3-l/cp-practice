@@ -5,10 +5,6 @@
 	    alt="License"
 	/>
 	<img
-	    src="https://img.shields.io/github/workflow/status/jo3-l/cp-practice/Continuous%20Integration.svg?style=for-the-badge"
-	    alt="Build Status"
-	/>
-	<img
 		src='https://img.shields.io/github/languages/top/jo3-l/cp-practice.svg?style=for-the-badge'
 		alt='Language'
 	/>
