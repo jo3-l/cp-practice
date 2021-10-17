@@ -3,7 +3,7 @@
 using namespace std;
 
 class MutableRangeSum {
-      public:
+public:
 	MutableRangeSum(vector<int> &nums) : len(nums.size()) {
 		data.resize(len << 1);
 		build(nums);
@@ -20,18 +20,15 @@ class MutableRangeSum {
 
 	void update(int i, int v) {
 		data[i += len] = v;
-		for (; i > 1; i >>= 1)
-			data[i >> 1] = data[i] + data[i ^ 1];
+		for (; i > 1; i >>= 1) data[i >> 1] = data[i] + data[i ^ 1];
 	}
 
-      private:
+private:
 	vector<int> data;
 	int len;
 
 	void build(vector<int> &nums) {
-		for (int i = 0; i < len; i++)
-			data[i + len] = nums[i];
-		for (int i = len - 1; i > 0; i--)
-			data[i] = data[i << 1] + data[i << 1 | 1];
+		for (int i = 0; i < len; i++) data[i + len] = nums[i];
+		for (int i = len - 1; i > 0; i--) data[i] = data[i << 1] + data[i << 1 | 1];
 	}
 };

@@ -10,8 +10,7 @@ int main() {
 	set<int> available;
 	int g, p;
 	cin >> g >> p;
-	for (int i = 1; i <= g; i++)
-		available.insert(i);
+	for (int i = 1; i <= g; i++) available.insert(i);
 
 	int r;
 	for (r = 0; r < p; r++) {

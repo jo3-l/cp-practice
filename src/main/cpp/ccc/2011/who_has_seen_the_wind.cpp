@@ -15,9 +15,7 @@ int main() {
 		if (a <= 0) break;
 	}
 
-	if (t > m)
-		cout << "The balloon does not touch ground in the given time." << '\n';
-	else
-		cout << "The balloon first touches ground at hour:" << '\n' << t << '\n';
+	if (t > m) cout << "The balloon does not touch ground in the given time." << '\n';
+	else cout << "The balloon first touches ground at hour:" << '\n' << t << '\n';
 	return 0;
 }

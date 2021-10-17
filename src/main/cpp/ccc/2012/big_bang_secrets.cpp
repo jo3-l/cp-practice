@@ -13,8 +13,7 @@ int main() {
 	for (int i = 0; i < s.size(); i++) {
 		int shift = 3 * (i + 1) + k;
 		int v = (s[i] - 'A') - shift;
-		while (v < 0)
-			v += 26;
+		while (v < 0) v += 26;
 		cout << (char)(v + 'A');
 	}
 

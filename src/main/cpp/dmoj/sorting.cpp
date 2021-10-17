@@ -12,11 +12,9 @@ int main() {
 
 	int n;
 	cin >> n;
-	for (int i = 0; i < n; i++)
-		cin >> nums[i];
+	for (int i = 0; i < n; i++) cin >> nums[i];
 	sort(begin(nums), begin(nums) + n);
-	for (int i = 0; i < n; i++)
-		cout << nums[i] << '\n';
+	for (int i = 0; i < n; i++) cout << nums[i] << '\n';
 
 	return 0;
 }

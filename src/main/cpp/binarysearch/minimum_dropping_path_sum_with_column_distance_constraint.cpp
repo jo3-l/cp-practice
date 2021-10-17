@@ -8,8 +8,7 @@ int solve(vector<vector<int>> &matrix) {
 	vector<int> ndp(C);
 	for (int i = 1; i < R; i++) {
 		for (int j = 0; j < C; j++) {
-			ndp[j] =
-			    min({j > 0 ? dp[j - 1] : INT_MAX, dp[j], j < C - 1 ? dp[j + 1] : INT_MAX}) + matrix[i][j];
+			ndp[j] = min({j > 0 ? dp[j - 1] : INT_MAX, dp[j], j < C - 1 ? dp[j + 1] : INT_MAX}) + matrix[i][j];
 		}
 		swap(dp, ndp);
 	}

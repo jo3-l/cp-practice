@@ -14,10 +14,8 @@ int main() {
 	int wildcards = 0;
 	for (int i = 0; i < input.size(); i++) {
 		input_ctr[input[i] - 'a']++;
-		if (pattern[i] == '*')
-			wildcards++;
-		else
-			pattern_ctr[pattern[i] - 'a']++;
+		if (pattern[i] == '*') wildcards++;
+		else pattern_ctr[pattern[i] - 'a']++;
 	}
 	for (int c = 0; c < 26; c++) {
 		if (input_ctr[c] != pattern_ctr[c]) {

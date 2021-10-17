@@ -17,8 +17,7 @@ int main() {
 			if (i > 0) cout << ' ';
 			int start = i;
 			char c = s[i++];
-			while (i < s.size() && s[i] == c)
-				i++;
+			while (i < s.size() && s[i] == c) i++;
 			cout << i - start << ' ' << c;
 		}
 		cout << '\n';

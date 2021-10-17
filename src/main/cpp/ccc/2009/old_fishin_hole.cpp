@@ -14,8 +14,7 @@ int main() {
 		for (int j = 0; i * a + j * b <= d; j++) {
 			for (int k = 0; i * a + j * b + k * c <= d; k++) {
 				if (i || j || k) {
-					cout << i << " Brown Trout, " << j << " Northern Pike, " << k
-					     << " Yellow Pickerel" << '\n';
+					cout << i << " Brown Trout, " << j << " Northern Pike, " << k << " Yellow Pickerel" << '\n';
 					cnt++;
 				}
 			}

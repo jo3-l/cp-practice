@@ -34,9 +34,7 @@ bool check() {
 			if (grid[i][j] > MN || grid[i][j] < -MN) return false;
 		}
 
-		if (grid[i][2] - grid[i][1] != grid[i][1] - grid[i][0] ||
-		    grid[2][i] - grid[1][i] != grid[1][i] - grid[0][i])
-			return false;
+		if (grid[i][2] - grid[i][1] != grid[i][1] - grid[i][0] || grid[2][i] - grid[1][i] != grid[1][i] - grid[0][i]) return false;
 	}
 	return true;
 }
@@ -62,8 +60,7 @@ int main() {
 
 		int xs = 0;
 		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++)
-				xs += grid[i][j] == X;
+			for (int j = 0; j < 3; j++) xs += grid[i][j] == X;
 		}
 
 		while (xs) {
@@ -76,10 +73,8 @@ int main() {
 				}
 
 				if (row_known == 2 || col_known == 2) {
-					if (row_known == 2)
-						fill_row(i);
-					else
-						fill_col(i);
+					if (row_known == 2) fill_row(i);
+					else fill_col(i);
 
 					xs--;
 					did_work = true;

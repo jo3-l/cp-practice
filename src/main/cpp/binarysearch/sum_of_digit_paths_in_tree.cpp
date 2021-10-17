@@ -3,7 +3,7 @@
 using namespace std;
 
 class Tree {
-      public:
+public:
 	int val;
 	Tree *left;
 	Tree *right;

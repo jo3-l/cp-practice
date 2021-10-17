@@ -37,12 +37,10 @@ int main() {
 
 	cin >> n;
 	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++)
-			cin >> measurements[i][j];
+		for (int j = 0; j < n; j++) cin >> measurements[i][j];
 	}
 
-	while (!valid())
-		rotate();
+	while (!valid()) rotate();
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			if (j > 0) cout << ' ';

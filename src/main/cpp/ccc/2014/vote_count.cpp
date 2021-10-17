@@ -16,12 +16,9 @@ int main() {
 		cin >> c;
 		cnt[c - 'A']++;
 	}
-	if (cnt[0] > cnt[1])
-		cout << 'A' << '\n';
-	else if (cnt[0] == cnt[1])
-		cout << "Tie" << '\n';
-	else
-		cout << 'B' << '\n';
+	if (cnt[0] > cnt[1]) cout << 'A' << '\n';
+	else if (cnt[0] == cnt[1]) cout << "Tie" << '\n';
+	else cout << 'B' << '\n';
 
 	return 0;
 }

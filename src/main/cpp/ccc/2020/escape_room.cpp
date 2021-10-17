@@ -41,8 +41,7 @@ int main() {
 
 	cin >> K >> C;
 	for (int i = 0; i < K; i++) {
-		for (int j = 0; j < C; j++)
-			cin >> matrix[i][j];
+		for (int j = 0; j < C; j++) cin >> matrix[i][j];
 	}
 	// patch the end cell.
 	matrix[K - 1][C - 1] = END;

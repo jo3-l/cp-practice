@@ -12,9 +12,7 @@ vector<vector<int>> solve(vector<vector<int>> &board) {
 		board[i][j] = c;
 		for (int d = 0; d < 4; d++) {
 			int ni = i + di[d], nj = j + dj[d];
-			if (0 <= ni && ni < R && 0 <= nj && nj < C &&
-			    board[ni][nj] == 1)
-				color_land(ni, nj, c);
+			if (0 <= ni && ni < R && 0 <= nj && nj < C && board[ni][nj] == 1) color_land(ni, nj, c);
 		}
 	};
 

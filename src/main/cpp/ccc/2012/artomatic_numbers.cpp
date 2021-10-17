@@ -15,10 +15,8 @@ int main() {
 	for (int i = 0; i < s.length(); i += 2) {
 		int sv = sym_val[s[i + 1]];
 		int cur_v = (s[i] - '0') * sv;
-		if (i < (int)s.length() - 2 && sym_val[s[i + 3]] > sv)
-			v -= cur_v;
-		else
-			v += cur_v;
+		if (i < (int)s.length() - 2 && sym_val[s[i + 3]] > sv) v -= cur_v;
+		else v += cur_v;
 	}
 
 	cout << v << '\n';

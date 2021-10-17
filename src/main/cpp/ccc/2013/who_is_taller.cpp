@@ -40,12 +40,9 @@ int main() {
 
 	int p, q;
 	cin >> p >> q;
-	if (is_taller(p, q))
-		cout << "yes" << '\n';
-	else if (is_taller(q, p))
-		cout << "no" << '\n';
-	else
-		cout << "unknown" << '\n';
+	if (is_taller(p, q)) cout << "yes" << '\n';
+	else if (is_taller(q, p)) cout << "no" << '\n';
+	else cout << "unknown" << '\n';
 
 	return 0;
 }

@@ -14,8 +14,7 @@ int main() {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < k; j++) {
 			for (int z = 0; z < 3; z++) {
-				for (int a = 0; a < k; a++)
-					cout << icon[i][z];
+				for (int a = 0; a < k; a++) cout << icon[i][z];
 			}
 			cout << '\n';
 		}

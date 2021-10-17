@@ -28,10 +28,8 @@ int main() {
 		int v;
 		cin >> v;
 		v--; // 1-based to 0-based
-		if (c == 'R')
-			row_color_cnt[v]++;
-		else
-			col_color_cnt[v]++;
+		if (c == 'R') row_color_cnt[v]++;
+		else col_color_cnt[v]++;
 	};
 
 	int gold = 0;

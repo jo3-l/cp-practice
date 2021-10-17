@@ -18,10 +18,8 @@ int query(int i, int j) {
 }
 
 void build(vector<int> &nums) {
-	for (int i = 0; i < nums.size(); i++)
-		tree[i + len] = nums[i];
-	for (int i = len - 1; i > 0; i--)
-		tree[i] = tree[i << 1] ^ tree[i << 1 | 1];
+	for (int i = 0; i < nums.size(); i++) tree[i + len] = nums[i];
+	for (int i = len - 1; i > 0; i--) tree[i] = tree[i << 1] ^ tree[i << 1 | 1];
 }
 
 vector<int> solve(vector<int> &nums, vector<vector<int>> &queries) {

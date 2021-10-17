@@ -18,8 +18,7 @@ int main() {
 	}
 
 	unordered_map<string, string> partners;
-	for (int i = 0; i < n; i++)
-		cin >> names[i];
+	for (int i = 0; i < n; i++) cin >> names[i];
 
 	for (int i = 0; i < n; i++) {
 		string partner;

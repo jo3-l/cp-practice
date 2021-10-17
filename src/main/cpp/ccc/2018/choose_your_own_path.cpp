@@ -57,8 +57,7 @@ int main() {
 		int m;
 		cin >> m;
 		graph[i].resize(m);
-		for (int j = 0; j < m; j++)
-			cin >> graph[i][j];
+		for (int j = 0; j < m; j++) cin >> graph[i][j];
 	}
 
 	visited[1] = true;

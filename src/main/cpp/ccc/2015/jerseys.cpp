@@ -15,10 +15,8 @@ int main() {
 	for (int i = 1; i <= j; i++) {
 		char size;
 		cin >> size;
-		if (size == 'M')
-			jerseys[i] = 1;
-		else if (size == 'L')
-			jerseys[i] = 2;
+		if (size == 'M') jerseys[i] = 1;
+		else if (size == 'L') jerseys[i] = 2;
 	}
 
 	int ans = 0;
@@ -29,12 +27,9 @@ int main() {
 		if (requested > j) continue;
 
 		bool ok = false;
-		if (size == 'S')
-			ok = jerseys[requested] >= 0;
-		else if (size == 'M')
-			ok = jerseys[requested] >= 1;
-		else
-			ok = jerseys[requested] >= 2;
+		if (size == 'S') ok = jerseys[requested] >= 0;
+		else if (size == 'M') ok = jerseys[requested] >= 1;
+		else ok = jerseys[requested] >= 2;
 
 		if (ok) {
 			jerseys[requested] = -1;

@@ -16,10 +16,8 @@ int main() {
 	string flips;
 	cin >> flips;
 	for (char c : flips) {
-		if (c == 'H')
-			h ^= 1;
-		else
-			v ^= 1;
+		if (c == 'H') h ^= 1;
+		else v ^= 1;
 	}
 	cout << combo[h][v] << endl;
 

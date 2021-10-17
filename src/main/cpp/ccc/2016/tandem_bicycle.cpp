@@ -13,19 +13,15 @@ int main() {
 
 	int type, n;
 	cin >> type >> n;
-	for (int i = 0; i < n; i++)
-		cin >> dmojistan[i];
-	for (int i = 0; i < n; i++)
-		cin >> pegland[i];
+	for (int i = 0; i < n; i++) cin >> dmojistan[i];
+	for (int i = 0; i < n; i++) cin >> pegland[i];
 	sort(begin(dmojistan), begin(dmojistan) + n);
 	sort(begin(pegland), begin(pegland) + n);
 	int r = 0;
 	if (type == 1) {
-		for (int i = 0; i < n; i++)
-			r += max(dmojistan[i], pegland[i]);
+		for (int i = 0; i < n; i++) r += max(dmojistan[i], pegland[i]);
 	} else {
-		for (int d = 0, p = n - 1; d < n; d++, p--)
-			r += max(dmojistan[d], pegland[p]);
+		for (int d = 0, p = n - 1; d < n; d++, p--) r += max(dmojistan[d], pegland[p]);
 	}
 	cout << r << '\n';
 

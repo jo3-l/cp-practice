@@ -24,10 +24,8 @@ int main() {
 	cin >> s;
 	int time = to_time(s);
 	for (int i = 0; i < COMMUTE_DIST; time = (time + 1) % DAY) {
-		if ((_7H <= time && time < _10H) || (_15H <= time && time < _19H))
-			i++;
-		else
-			i += 2;
+		if ((_7H <= time && time < _10H) || (_15H <= time && time < _19H)) i++;
+		else i += 2;
 	}
 
 	int h = time / 60, m = time % 60;

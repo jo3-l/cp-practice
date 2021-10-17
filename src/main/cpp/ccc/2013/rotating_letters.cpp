@@ -10,8 +10,7 @@ int main() {
 	cout.tie(nullptr);
 
 	memset(ok, false, sizeof(ok));
-	for (char c : {'I', 'O', 'S', 'H', 'Z', 'X', 'N'})
-		ok[c - 'A'] = true;
+	for (char c : {'I', 'O', 'S', 'H', 'Z', 'X', 'N'}) ok[c - 'A'] = true;
 	string s;
 	cin >> s;
 	cout << (all_of(s.begin(), s.end(), [&](char c) { return ok[c - 'A']; }) ? "YES" : "NO") << '\n';

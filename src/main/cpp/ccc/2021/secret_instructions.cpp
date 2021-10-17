@@ -13,12 +13,9 @@ int main() {
 		if (s == "99999") break;
 		int sum = s[0] - '0' + s[1] - '0';
 		char dir;
-		if (sum == 0)
-			dir = last_dir;
-		else if (sum & 1)
-			dir = 'l';
-		else
-			dir = 'r';
+		if (sum == 0) dir = last_dir;
+		else if (sum & 1) dir = 'l';
+		else dir = 'r';
 		last_dir = dir;
 
 		int steps = (s[2] - '0') * 100 + (s[3] - '0') * 10 + s[4] - '0';

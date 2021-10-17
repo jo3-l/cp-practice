@@ -10,8 +10,7 @@ int main() {
 	int r;
 	for (cin >> r; r; cin >> r) {
 		int ans = 0;
-		for (int x = 0; x <= r; x++)
-			ans += 4 * floor(sqrt((r * r) - (x * x)));
+		for (int x = 0; x <= r; x++) ans += 4 * floor(sqrt((r * r) - (x * x)));
 		cout << ans + 1 << '\n';
 	}
 

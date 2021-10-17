@@ -11,12 +11,9 @@ int main() {
 	string shelf;
 	cin >> shelf;
 	for (char c : shelf) {
-		if (c == 'L')
-			l_cnt++;
-		else if (c == 'M')
-			m_cnt++;
-		else
-			s_cnt++;
+		if (c == 'L') l_cnt++;
+		else if (c == 'M') m_cnt++;
+		else s_cnt++;
 	}
 
 	// We'll solve this problem greedily. Let's split the process of
@@ -33,10 +30,8 @@ int main() {
 		if (i < l_cnt) { // large section
 			if (shelf[i] == 'S') s_in_l++;
 		} else if (i < l_cnt + m_cnt) { // medium section
-			if (shelf[i] == 'L')
-				l_in_m++;
-			else if (shelf[i] == 'S')
-				s_in_m++;
+			if (shelf[i] == 'L') l_in_m++;
+			else if (shelf[i] == 'S') s_in_m++;
 		} else { // small section
 			if (shelf[i] == 'L') l_in_s++;
 		}

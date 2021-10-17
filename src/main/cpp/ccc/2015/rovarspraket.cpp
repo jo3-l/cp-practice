@@ -8,8 +8,7 @@ char nxt[26];
 
 int main() {
 	memset(consonant, true, sizeof(consonant));
-	for (char c : {'a', 'e', 'i', 'o', 'u'})
-		consonant[c - 'a'] = false;
+	for (char c : {'a', 'e', 'i', 'o', 'u'}) consonant[c - 'a'] = false;
 
 	for (int i = 0; i < 26; i++) {
 		if (!consonant[i]) continue;

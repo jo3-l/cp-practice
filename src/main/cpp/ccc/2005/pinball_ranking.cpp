@@ -6,9 +6,8 @@ using namespace std;
 using namespace __gnu_pbds;
 
 template <typename T>
-using ordered_vector =
-    tree<T, null_type, less_equal<T>, rb_tree_tag,
-	 tree_order_statistics_node_update>; // less_equal<> to (sort of) support duplicates; really scuffed
+using ordered_vector = tree<T, null_type, less_equal<T>, rb_tree_tag,
+			    tree_order_statistics_node_update>; // less_equal<> to (sort of) support duplicates; really scuffed
 
 int main() {
 	ios_base::sync_with_stdio(false);

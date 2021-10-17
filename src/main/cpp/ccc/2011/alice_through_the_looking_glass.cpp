@@ -19,8 +19,7 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	definitely_crystal[1][0] = definitely_crystal[2][0] = definitely_crystal[3][0] = definitely_crystal[2][1] =
-	    true;
+	definitely_crystal[1][0] = definitely_crystal[2][0] = definitely_crystal[3][0] = definitely_crystal[2][1] = true;
 	defer[1][1] = defer[2][2] = defer[3][1] = true;
 
 	int t;

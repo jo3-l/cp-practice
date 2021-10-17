@@ -21,14 +21,10 @@ int main() {
 			char y;
 			cin >> y;
 			int &lhs = reg[x - 'A'], rhs = reg[y - 'A'];
-			if (op == 3)
-				lhs += rhs;
-			else if (op == 4)
-				lhs *= rhs;
-			else if (op == 5)
-				lhs -= rhs;
-			else if (op == 6)
-				lhs /= rhs;
+			if (op == 3) lhs += rhs;
+			else if (op == 4) lhs *= rhs;
+			else if (op == 5) lhs -= rhs;
+			else if (op == 6) lhs /= rhs;
 		}
 	}
 

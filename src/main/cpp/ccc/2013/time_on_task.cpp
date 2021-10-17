@@ -12,8 +12,7 @@ int main() {
 
 	int t, c;
 	cin >> t >> c;
-	for (int i = 0; i < c; i++)
-		cin >> chores[i];
+	for (int i = 0; i < c; i++) cin >> chores[i];
 	sort(begin(chores), begin(chores) + c);
 	int i, s = 0;
 	for (i = 0; i < c; i++) {

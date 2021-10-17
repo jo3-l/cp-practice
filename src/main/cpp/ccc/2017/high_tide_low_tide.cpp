@@ -12,8 +12,7 @@ int main() {
 
 	int n;
 	cin >> n;
-	for (int i = 0; i < n; i++)
-		cin >> measurements[i];
+	for (int i = 0; i < n; i++) cin >> measurements[i];
 	sort(begin(measurements), begin(measurements) + n);
 	for (int lo = (n - 1) >> 1, hi = lo + 1; lo >= 0; lo--, hi++) {
 		if (lo < hi - 1) cout << ' ';

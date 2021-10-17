@@ -23,8 +23,7 @@ int main() {
 		int r, c;
 		cin >> r >> c;
 		for (int i = 0; i < r; i++) {
-			for (int j = 0; j < c; j++)
-				cin >> grid[i][j];
+			for (int j = 0; j < c; j++) cin >> grid[i][j];
 		}
 		if (r == 1 && c == 1) {
 			cout << 1 << '\n';
@@ -45,8 +44,7 @@ int main() {
 					for (pair<int, int> d : get_moves(grid[i][j])) {
 						int ni = i + d.first, nj = j + d.second;
 						if (ni == r - 1 && nj == c - 1) goto found;
-						if (0 <= ni && ni < r && 0 <= nj && nj < c && !vis[ni][nj] &&
-						    grid[i][j] != '*') {
+						if (0 <= ni && ni < r && 0 <= nj && nj < c && !vis[ni][nj] && grid[i][j] != '*') {
 							q.push({ni, nj});
 							vis[ni][nj] = true;
 						}

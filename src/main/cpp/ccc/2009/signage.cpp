@@ -26,16 +26,14 @@ int main() {
 		int dots = width - line_width;
 		if (words_on_line == 1) {
 			cout << words[lo];
-			while (dots--)
-				cout << '.';
+			while (dots--) cout << '.';
 		} else {
 			int gaps = words_on_line - 1;
 			int dots_per_gap = dots / gaps;
 			int extra = dots % gaps;
 			cout << words[lo];
 			for (int j = lo + 1; j < i; j++) {
-				for (int k = 0; k < dots_per_gap + (j - lo <= extra); k++)
-					cout << '.';
+				for (int k = 0; k < dots_per_gap + (j - lo <= extra); k++) cout << '.';
 				cout << words[j];
 			}
 		}

@@ -10,7 +10,7 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	int k, rounds;  
+	int k, rounds;
 	cin >> k >> rounds;
 
 	iota(begin(people) + 1, begin(people) + k + 1, 1);
@@ -27,8 +27,7 @@ int main() {
 		remaining = pos - 1;
 	}
 
-	for (int i = 1; i <= remaining; i++)
-		cout << people[i] << '\n';
+	for (int i = 1; i <= remaining; i++) cout << people[i] << '\n';
 
 	return 0;
 }

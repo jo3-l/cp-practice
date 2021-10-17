@@ -9,10 +9,8 @@ int main() {
 
 	int j;
 	cin >> j;
-	if (j < 4)
-		cout << 0 << '\n';
-	else
-		cout << ((j - 1) * (j - 2) * (j - 3)) / 6 << '\n';
+	if (j < 4) cout << 0 << '\n';
+	else cout << ((j - 1) * (j - 2) * (j - 3)) / 6 << '\n';
 
 	return 0;
 }

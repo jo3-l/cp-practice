@@ -16,8 +16,7 @@ constexpr bool is_arith_seq(int t) {
 
 constexpr int calc(int n) {
 	int r = 0;
-	for (int i = 0; i <= n; i++)
-		r += is_arith_seq(adjust(i));
+	for (int i = 0; i <= n; i++) r += is_arith_seq(adjust(i));
 	return r;
 }
 

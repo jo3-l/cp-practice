@@ -21,8 +21,7 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	for (auto c : initial)
-		add(c.first, c.second);
+	for (auto c : initial) add(c.first, c.second);
 
 	int x = -1, y = -5;
 	char c;

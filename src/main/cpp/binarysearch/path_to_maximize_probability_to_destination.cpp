@@ -5,8 +5,7 @@ using namespace std;
 unordered_map<int, double> best;
 unordered_map<int, vector<pair<int, double>>> adj;
 
-double solve(vector<vector<int>> &edges, vector<double> &success, int start,
-	     int end) {
+double solve(vector<vector<int>> &edges, vector<double> &success, int start, int end) {
 	adj.clear();
 	for (int i = 0; i < edges.size(); i++) {
 		vector<int> &edge = edges[i];

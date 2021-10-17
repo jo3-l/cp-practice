@@ -17,8 +17,7 @@ int main() {
 	for (; t > 0; t--, branch_size = 0) {
 		int n;
 		cin >> n;
-		for (int i = 0; i < n; i++)
-			cin >> cars[i];
+		for (int i = 0; i < n; i++) cin >> cars[i];
 
 		int want = 1;
 		auto push_branch = [&]() {
@@ -30,10 +29,8 @@ int main() {
 		for (int i = n - 1; i >= 0; i--) {
 			int car = cars[i];
 			push_branch();
-			if (car == want)
-				want++;
-			else
-				branch[branch_size++] = car;
+			if (car == want) want++;
+			else branch[branch_size++] = car;
 		}
 		push_branch();
 		cout << (want == n + 1 ? 'Y' : 'N') << '\n';

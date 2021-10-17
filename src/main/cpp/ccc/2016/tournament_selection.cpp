@@ -14,14 +14,10 @@ int main() {
 		if (c == 'W') wins++;
 	}
 
-	if (wins >= 5)
-		cout << 1 << '\n';
-	else if (wins >= 3)
-		cout << 2 << '\n';
-	else if (wins >= 1)
-		cout << 3 << '\n';
-	else
-		cout << -1 << '\n';
+	if (wins >= 5) cout << 1 << '\n';
+	else if (wins >= 3) cout << 2 << '\n';
+	else if (wins >= 1) cout << 3 << '\n';
+	else cout << -1 << '\n';
 
 	return 0;
 }

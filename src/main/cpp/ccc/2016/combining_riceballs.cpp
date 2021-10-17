@@ -29,8 +29,7 @@ int main() {
 			// ^^^^^^           ^^^^^^^
 			// i    l           r     j
 			for (int l = i, r = j; l < r;) {
-				bool mid_possible = l == r - 1 || dp[l + 1][r - 1], left_possible = dp[i][l],
-				     right_possible = dp[r][j];
+				bool mid_possible = l == r - 1 || dp[l + 1][r - 1], left_possible = dp[i][l], right_possible = dp[r][j];
 				int left_sum = query(i, l), right_sum = query(r, j);
 				if (!mid_possible || !left_possible || !right_possible || left_sum != right_sum) {
 					if (left_sum >= right_sum) r--;

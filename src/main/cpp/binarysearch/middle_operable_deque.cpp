@@ -3,7 +3,7 @@
 using namespace std;
 
 class MiddleOperableDeque {
-      public:
+public:
 	void appendLeft(int val) {
 		left.push_front(val);
 		balance();
@@ -56,7 +56,7 @@ class MiddleOperableDeque {
 		return v;
 	}
 
-      private:
+private:
 	deque<int> left, right;
 
 	void balance() {

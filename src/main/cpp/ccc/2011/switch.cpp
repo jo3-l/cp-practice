@@ -34,12 +34,10 @@ int main() {
 			for (int i = 0; i < k; i++) {
 				if (!(lights & (1 << i))) {
 					int lo = i - 1;
-					while (lo >= 0 && lights & (1 << lo))
-						lo--;
+					while (lo >= 0 && lights & (1 << lo)) lo--;
 					lo++;
 					int hi = i + 1;
-					while (hi < k && lights & (1 << hi))
-						hi++;
+					while (hi < k && lights & (1 << hi)) hi++;
 					hi--;
 					if (hi - lo + 1 < 4) {
 						int b = lights | (1 << i);

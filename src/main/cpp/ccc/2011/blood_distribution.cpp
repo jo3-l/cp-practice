@@ -28,8 +28,7 @@ int main() {
 	cin >> o_neg_p >> o_pos_p >> a_neg_p >> a_pos_p >> b_neg_p >> b_pos_p >> ab_neg_p >> ab_pos_p;
 
 	cout << calc(o_neg_p, o_neg) + calc(o_pos_p, o_pos, o_neg) + calc(a_neg_p, a_neg, o_neg) +
-		    calc(a_pos_p, a_pos, o_pos, a_neg, o_neg) + calc(b_neg_p, b_neg, o_neg) +
-		    calc(b_pos_p, b_pos, o_pos, b_neg, o_neg) + calc(ab_neg_p, ab_neg, o_neg, a_neg, b_neg) +
-		    calc(ab_pos_p, ab_pos, o_pos, a_pos, b_pos, ab_neg, o_neg, a_neg, b_neg);
+		    calc(a_pos_p, a_pos, o_pos, a_neg, o_neg) + calc(b_neg_p, b_neg, o_neg) + calc(b_pos_p, b_pos, o_pos, b_neg, o_neg) +
+		    calc(ab_neg_p, ab_neg, o_neg, a_neg, b_neg) + calc(ab_pos_p, ab_pos, o_pos, a_pos, b_pos, ab_neg, o_neg, a_neg, b_neg);
 	return 0;
 }

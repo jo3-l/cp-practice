@@ -15,10 +15,8 @@ int main() {
 	int baseline = (t / 100) * 60 + t % 100;
 	for (int i = 0; i < 7; i++) {
 		int nt = baseline + offsets[i];
-		if (nt < 0)
-			nt += 24 * 60;
-		else if (nt >= 24 * 60)
-			nt -= 24 * 60;
+		if (nt < 0) nt += 24 * 60;
+		else if (nt >= 24 * 60) nt -= 24 * 60;
 		cout << (nt / 60) * 100 + (nt % 60) << " in " << places[i] << '\n';
 	}
 

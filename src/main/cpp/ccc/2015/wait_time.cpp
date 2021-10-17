@@ -21,17 +21,17 @@ int main() {
 		int x;
 		cin >> c >> x;
 		switch (c) {
-		case 'W':
-			time += x - 1;
-			break;
-		case 'R':
-			friends.insert(x);
-			sent[x] = time++;
-			break;
-		case 'S':
-			total_wait_time[x] += time++ - sent[x];
-			sent.erase(x);
-			break;
+			case 'W':
+				time += x - 1;
+				break;
+			case 'R':
+				friends.insert(x);
+				sent[x] = time++;
+				break;
+			case 'S':
+				total_wait_time[x] += time++ - sent[x];
+				sent.erase(x);
+				break;
 		}
 	}
 

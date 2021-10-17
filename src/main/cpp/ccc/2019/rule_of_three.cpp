@@ -101,16 +101,13 @@ struct UInt128Hash {
 
 bool ok[70][70];
 void upd_ok(int steps) {
-	int final_a = count(final_str.begin(), final_str.end(), 'A'),
-	    final_b = count(final_str.begin(), final_str.end(), 'B');
+	int final_a = count(final_str.begin(), final_str.end(), 'A'), final_b = count(final_str.begin(), final_str.end(), 'B');
 	memset(ok, false, sizeof(ok));
 	for (int r0 = 0; r0 <= steps; r0++) {
 		for (int r1 = 0; r0 + r1 <= steps; r1++) {
 			int r2 = steps - r0 - r1;
-			int a =
-			    final_a + rules[0].rev_a_delta * r0 + rules[1].rev_a_delta * r1 + rules[2].rev_a_delta * r2;
-			int b =
-			    final_b + rules[0].rev_b_delta * r0 + rules[1].rev_b_delta * r1 + rules[2].rev_b_delta * r2;
+			int a = final_a + rules[0].rev_a_delta * r0 + rules[1].rev_a_delta * r1 + rules[2].rev_a_delta * r2;
+			int b = final_b + rules[0].rev_b_delta * r0 + rules[1].rev_b_delta * r1 + rules[2].rev_b_delta * r2;
 			if (0 <= a && a < max_len && 0 <= b && a < max_len) {
 				ok[a][b] = true;
 			}
@@ -177,10 +174,9 @@ int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
-	cin >> rules[0].from >> rules[0].to >> rules[1].from >> rules[1].to >> rules[2].from >> rules[2].to >>
-	    target_step >> initial_str >> final_str;
-	for (Rule &r : rules)
-		r.init();
+	cin >> rules[0].from >> rules[0].to >> rules[1].from >> rules[1].to >> rules[2].from >> rules[2].to >> target_step >> initial_str >>
+	    final_str;
+	for (Rule &r : rules) r.init();
 	upd_max_len();
 
 	uint128 final_enc = encode<uint128, true>(final_str);
@@ -197,8 +193,7 @@ int main() {
 				uint128 cur = encode<uint128, true>(initial_str);
 				for (auto node : nodes) {
 					cur = rules[node->rule].apply(cur, node->pos);
-					cout << (node->rule + 1) << ' ' << (node->pos + 1) << ' ' << decode(cur)
-					     << '\n';
+					cout << (node->rule + 1) << ' ' << (node->pos + 1) << ' ' << decode(cur) << '\n';
 				}
 
 				return true;
@@ -216,14 +211,12 @@ int main() {
 		return false;
 	});
 
-	for (auto &r : rules)
-		r.flip();
+	for (auto &r : rules) r.flip();
 	swap(initial_str, final_str);
 	search(target_step - forward_steps, [&](pair<uint128, HistoryNode *> state) {
 		auto it = at_middle.find(state.first);
 		if (it == at_middle.end()) return false;
-		for (auto &r : rules)
-			r.flip();
+		for (auto &r : rules) r.flip();
 		swap(initial_str, final_str);
 
 		HistoryNode *forward_node = it->second;

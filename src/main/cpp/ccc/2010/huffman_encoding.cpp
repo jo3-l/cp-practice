@@ -34,8 +34,7 @@ int main() {
 	string ans;
 	while (i < enc.size()) {
 		TrieNode *cur = root;
-		while (i < enc.size() && !cur->val)
-			cur = cur->children[enc[i++] - '0'];
+		while (i < enc.size() && !cur->val) cur = cur->children[enc[i++] - '0'];
 		ans.push_back(cur->val);
 	}
 	cout << ans << '\n';

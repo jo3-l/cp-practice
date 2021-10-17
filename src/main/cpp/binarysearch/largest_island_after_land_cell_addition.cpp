@@ -31,8 +31,7 @@ int solve(vector<vector<int>> &matrix) {
 		vis[i][j] = true;
 		for (int d = 0; d < 4; d++) {
 			int ni = i + di[d], nj = j + dj[d];
-			if (0 <= ni && ni < R && 0 <= nj && nj < C && matrix[ni][nj] &&
-			    !vis[ni][nj]) {
+			if (0 <= ni && ni < R && 0 <= nj && nj < C && matrix[ni][nj] && !vis[ni][nj]) {
 				// unite (i, j) and (ni, nj)
 				int a = find_set(i * C + j), b = find_set(ni * C + nj);
 				if (sz[a] < sz[b]) swap(a, b);
@@ -58,8 +57,7 @@ int solve(vector<vector<int>> &matrix) {
 				int c = 1;
 				for (int d = 0; d < 4; d++) {
 					int ni = i + di[d], nj = j + dj[d];
-					if (0 <= ni && ni < R && 0 <= nj && nj < C &&
-					    matrix[ni][nj]) {
+					if (0 <= ni && ni < R && 0 <= nj && nj < C && matrix[ni][nj]) {
 						int s = find_set(ni * C + nj);
 						if (!seen.count(s)) {
 							c += sz[s];

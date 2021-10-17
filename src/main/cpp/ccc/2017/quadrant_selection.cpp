@@ -9,10 +9,8 @@ int main() {
 
 	int x, y;
 	cin >> x >> y;
-	if (x > 0)
-		cout << (y < 0 ? 4 : 1) << '\n';
-	else
-		cout << (y < 0 ? 3 : 2) << '\n';
+	if (x > 0) cout << (y < 0 ? 4 : 1) << '\n';
+	else cout << (y < 0 ? 3 : 2) << '\n';
 
 	return 0;
 }

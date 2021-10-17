@@ -11,8 +11,7 @@ void sieve() {
 	is_prime[0] = is_prime[1] = false;
 	for (int i = 2; i <= MN; i++) {
 		if (!is_prime[i] || (ll)i * i > MN) continue;
-		for (int j = i * i; j <= MN; j += i)
-			is_prime[j] = false;
+		for (int j = i * i; j <= MN; j += i) is_prime[j] = false;
 	}
 }
 

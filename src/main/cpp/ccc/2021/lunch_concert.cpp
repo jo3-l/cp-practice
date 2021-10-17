@@ -54,10 +54,8 @@ int main() {
 		int mid = (lo + hi + 1) >> 1;
 		ll prev_time = cmp_walking_time(mid - 1);
 		ll cur_time = cmp_walking_time(mid);
-		if (prev_time > cur_time)
-			lo = mid;
-		else
-			hi = mid - 1;
+		if (prev_time > cur_time) lo = mid;
+		else hi = mid - 1;
 	}
 	cout << cmp_walking_time(lo) << endl;
 

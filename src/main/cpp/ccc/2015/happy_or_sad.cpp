@@ -13,36 +13,26 @@ int main() {
 	int state = 0; // 0 = ??, 1 = seen ':', 2 = seen '-'
 	for (char c : s) {
 		switch (state) {
-		case 0:
-			if (c == ':')
-				state++;
-			else
+			case 0:
+				if (c == ':') state++;
+				else state = 0;
+				break;
+			case 1:
+				if (c == '-') state++;
+				else state = 0;
+				break;
+			case 2:
+				if (c == ')') happy++;
+				else if (c == '(') sad++;
 				state = 0;
-			break;
-		case 1:
-			if (c == '-')
-				state++;
-			else
-				state = 0;
-			break;
-		case 2:
-			if (c == ')')
-				happy++;
-			else if (c == '(')
-				sad++;
-			state = 0;
-			break;
+				break;
 		}
 	}
 
-	if (happy == 0 && sad == 0)
-		cout << "none" << '\n';
-	else if (happy == sad)
-		cout << "unsure" << '\n';
-	else if (happy > sad)
-		cout << "happy" << '\n';
-	else
-		cout << "sad" << '\n';
+	if (happy == 0 && sad == 0) cout << "none" << '\n';
+	else if (happy == sad) cout << "unsure" << '\n';
+	else if (happy > sad) cout << "happy" << '\n';
+	else cout << "sad" << '\n';
 
 	return 0;
 }
