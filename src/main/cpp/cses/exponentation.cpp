@@ -9,8 +9,8 @@ constexpr int MOD = 1e9 + 7;
 template <int M> int modpow(int a, int b) {
 	ll ans = 1;
 	while (b > 0) {
-		if (b & 1) ans = (ans * a) % MOD;
-		a = ((ll)a * a) % MOD;
+		if (b & 1) ans = (ans * a) % M;
+		a = ((ll)a * a) % M;
 		b /= 2;
 	}
 	return ans;
