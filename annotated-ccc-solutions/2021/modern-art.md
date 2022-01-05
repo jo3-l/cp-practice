@@ -16,7 +16,7 @@ for each square at (i, j)
 		gold_squares++
 ```
 
-This leads to an $O(MN + K)$ solution, which is fast enough.
+This leads to an $\mathcal{O}(MN + K)$ solution, which is fast enough.
 
 However there exists a faster solution. Say that $N_R$ rows and $N_C$ columns are colored gold at the moment. Then the answer is simply the number of squares these rows and columns encompass, excluding their intersection, which is
 
@@ -58,8 +58,8 @@ int main() {
 
 ## Time Complexity
 
-The time complexity of this implementation is $O(M + N + K)$, but $O(MN + K)$ also passes as discussed.
+The time complexity of this implementation is $\mathcal{O}(M + N + K)$, but $\mathcal{O}(MN + K)$ also passes as discussed.
 
 ## Space Complexity
 
-$O(M + N)$.
+$\mathcal{O}(M + N)$.

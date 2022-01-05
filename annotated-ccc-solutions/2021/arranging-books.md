@@ -132,8 +132,8 @@ int main() {
 
 ## Time Complexity
 
-$O(N)$ where $N$ is the length of the shelf.
+$\mathcal{O}(N)$ where $N$ is the length of the shelf.
 
 ## Space Complexity
 
-$O(N)$ where $N$ is the length of the shelf.
+$\mathcal{O}(N)$ where $N$ is the length of the shelf.

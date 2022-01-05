@@ -4,7 +4,7 @@
 
 ## Analysis
 
-We model the room as a [directed graph](https://en.wikipedia.org/wiki/Directed_graph) where each vertex is a cell. Given an arbitrary cell with value $x$ we add an outgoing edge to the vertex for cell $(a, b)$ where $a \cdot b = x$ for all applicable $a, b$. We can precompute the edges of all vertices using a procedure similar to finding all divisors of all numbers in a range $[1, n]$ in $O(n \log n)$ time.
+We model the room as a [directed graph](https://en.wikipedia.org/wiki/Directed_graph) where each vertex is a cell. Given an arbitrary cell with value $x$ we add an outgoing edge to the vertex for cell $(a, b)$ where $a \cdot b = x$ for all applicable $a, b$. We can precompute the edges of all vertices using a procedure similar to finding all divisors of all numbers in a range $[1, n]$ in $\mathcal{O}(n \log n)$ time.
 
 The problem then simplifies to finding the shortest path from vertex $(1, 1)$ to $(M, N)$. As the graph is unweighted we can use a standard [breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search).
 
@@ -83,8 +83,8 @@ int main() {
 
 ## Time Complexity
 
-The performance of this solution is bottlenecked by precomputing all the factors (i.e., the edges of the vertices) at the beginning, which is $O(MN \log MN)$.
+The performance of this solution is bottlenecked by precomputing all the factors (i.e., the edges of the vertices) at the beginning, which is $\mathcal{O}(MN \log MN)$.
 
 ## Space Complexity
 
-Similar to time complexity -- $O(MN \log MN)$.
+Similar to time complexity -- $\mathcal{O}(MN \log MN)$.
