@@ -8,7 +8,7 @@ We model the room as a [directed graph](https://en.wikipedia.org/wiki/Directed_g
 
 The problem then simplifies to finding the shortest path from vertex $(1, 1)$ to $(M, N)$. As the graph is unweighted we can use a standard [breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search).
 
-As we want to find the shortest path, there is an optimization we can make; that is, there is no need to have a vertex for each cell. Say we have two cells with the same value, e.g., the two $3s$ in the following room:
+As we want to find the shortest path, there is an optimization we can make. In particular, there is no need to have a vertex for each cell; rather, we can let each vertex correspond to a _value_. Say we have two cells with the same value, e.g., the two $3s$ in the following room:
 
 ```
 [3] 10  8   14
