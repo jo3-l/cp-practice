@@ -69,8 +69,8 @@ int main() {
 
 ## Time Complexity
 
-A tighter bound may be found but $O(\log^2 P)$ is a fairly good estimate.
+A tighter bound may be found but $\mathcal{O}(\log^2 P)$ is a fairly good estimate.
 
 ## Space Complexity
 
-$O(1)$.
+$\mathcal{O}(1)$.
