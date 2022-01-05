@@ -12,13 +12,13 @@ To obtain the number of squares that are colored gold in the end, we can go thro
 
 ```
 for each square at (i, j)
-	if row_colored[i] ^ col_colored[j]:
+	if row_colored[i] ^ col_colored[j]
 		gold_squares++
 ```
 
 This leads to an $\mathcal{O}(MN + K)$ solution, which is fast enough.
 
-However there exists a faster solution. Say that $N_R$ rows and $N_C$ columns are colored gold at the moment. Then the answer is simply the number of squares these rows and columns encompass, excluding their intersection, which is
+However there exists a faster solution. Suppose that $N_R$ rows and $N_C$ columns are colored gold at the moment. Then the answer is simply the number of squares these rows and columns encompass, excluding their intersection, which is
 
 $$
 N_R N + N_C M - 2 N_R N_C
