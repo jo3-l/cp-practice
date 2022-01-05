@@ -18,8 +18,6 @@ int main() {
 	int n;
 	cin >> n;
 
-	// Keep track of the number of times a certain row/column has been
-	// colored.
 	int k;
 	cin >> k;
 	while (k--) {
@@ -35,10 +33,6 @@ int main() {
 	int gold = 0;
 	for (int i = 0; i < m; i++) {
 		for (int j = 0; j < n; j++) {
-			// The point (i, j) is colored gold if the number of
-			// times it has been colored over is odd. This is
-			// because coloring over the same point an even number
-			// of times has no effect.
 			int total = row_color_cnt[i] + col_color_cnt[j];
 			gold += total & 1;
 		}

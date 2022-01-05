@@ -38,10 +38,6 @@ int main() {
 
 	cin >> n;
 
-	// Graph an example on some paper. If we let f(d) be the cost for
-	// everyone to get to point d, then the graph of f looks like a valley.
-	// (This can actually be proven mathematically.) As such, we can binary
-	// search for the lowest point in the valley.
 	int min_pos = INT_MAX, max_pos = INT_MIN;
 	for (int i = 0; i < n; i++) {
 		cin >> friends[i].pos >> friends[i].walking_speed >> friends[i].max_dist;

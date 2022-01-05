@@ -41,13 +41,6 @@ int main() {
 		return query_type_fast(t, i, j);
 	};
 
-	// Similar to CCC 2021 J4 (arranging books).
-	// We just need to 1) build a prefix sum array so we can answer queries
-	// of the type "how many x are in some range" and 2) brute force all
-	// possible valid group combinations (the number of them is linear in
-	// the length of the string). Given that we can answer 1) in constant
-	// time, we can then get the amount of swaps needed for any given combo
-	// in constant time, resulting in a linear runtime overall.
 	int ans = INF;
 	for (int a_start = 0; a_start < table.size(); a_start++) {
 		int a_t = 0;

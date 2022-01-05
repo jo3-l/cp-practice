@@ -16,15 +16,6 @@ int main() {
 		else s_cnt++;
 	}
 
-	// We'll solve this problem greedily. Let's split the process of
-	// arranging the books into two steps. First, we move all the large
-	// books into their correct place. To minimize the number of swaps, we
-	// will prioritize a swap that gets both elements involved in the swap
-	// into their correct sections over one that only gets one into its
-	// correct position. That is, we will prefer to make a swap involving a
-	// small book in the large section and a large book in the small section
-	// over one involving a medium book in the large section and a large
-	// book in the small section.
 	int l_in_m = 0, l_in_s = 0, s_in_l = 0, s_in_m = 0;
 	for (int i = 0; i < shelf.size(); i++) {
 		if (i < l_cnt) { // large section

@@ -30,17 +30,6 @@ int main() {
 		return 0;
 	}
 
-	// Let's use a sliding window approach combined with string hashing.
-	// For each |N|-length substring of H, compute its frequency array, and
-	// compare it with the frequency array of N. If they're the same, then
-	// that substring is a valid answer.
-	//
-	// To handle duplicates, we hash the strings using a polynomial hash and
-	// store them in a set when an answer is found. Then, at the end, the
-	// answer is just the size of the set.
-	//
-	// To reduce the possibility of hash collisions, we use a pair of hashes
-	// with different powers (31 / 101).
 	unordered_set<pair<int, int>, PairHash<int, int>> seen;
 	ull needle_hsh_p = 0;
 	ull needle_hsh_q = 0;

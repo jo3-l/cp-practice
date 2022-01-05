@@ -11,7 +11,6 @@ struct UllPairHash {
 const int Q = 101;
 const int P = 257;
 
-// Rabin-Karp, for fun.
 bool solve(string &s, string &t) {
 	if (t.size() < s.size()) return false;
 	unordered_set<pair<ull, ull>, UllPairHash> target_hashes;
@@ -38,7 +37,6 @@ bool solve(string &s, string &t) {
 	}
 
 	for (int i = 0; i < s.size(); i++) {
-		// remove ith character, then add it to the back
 		hash_p = (hash_p - (s[i] - 'A') * max_p) * P + s[i] - 'A';
 		hash_q = (hash_q - (s[i] - 'A') * max_q) * Q + s[i] - 'A';
 		if (target_hashes.count({hash_p, hash_q})) return true;

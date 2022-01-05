@@ -11,7 +11,6 @@ int matrix[MR][MC];
 int K, C;
 
 bool solve() {
-	// breadth-first search. instead of coordinates, we store values.
 	set<int> seen;
 	queue<int> q;
 	if (matrix[0][0] == END) return true;
@@ -43,7 +42,6 @@ int main() {
 	for (int i = 0; i < K; i++) {
 		for (int j = 0; j < C; j++) cin >> matrix[i][j];
 	}
-	// patch the end cell.
 	matrix[K - 1][C - 1] = END;
 
 	cout << (solve() ? "yes" : "no") << endl;

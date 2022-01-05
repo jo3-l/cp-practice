@@ -1,4 +1,4 @@
-// 7/15 using Djikstra's; TLEs on the rest :/
+// 7/15; TLE on the rest
 #include <bits/stdc++.h>
 
 using namespace std;
