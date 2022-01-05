@@ -10,7 +10,9 @@
 	/>
 </div>
 
-> A place to store my solutions to the CCC and various other collections of CP problems, written in Java 8 and C++ 14.<br>
+> A place to store my solutions to the CCC and various other collections of CP problems, written primarily in Java 8 and C++ 14.<br>
+
+You may be interested in a collection of [annotated CCC solutions](./annotated-ccc-solutions/README) that I've written over time.
 
 ## Author
 

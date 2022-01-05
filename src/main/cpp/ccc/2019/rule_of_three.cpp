@@ -1,18 +1,8 @@
-// Full marks on the original CCC test data but TLEs with additional data from DMOJ. General idea: brute force using a
-// breadth-first search with several optimizations:
-// 	- Meet-in-the-middle trick for high step counts
-// 	- Duplicate strings at the same step are discarded
-// 	- Reversed singly-linked list is used to store history so appending a value to the end of
-// the list without modifying the original can be done in O(1)
-// 	- Binary strings are represented as unsigned 128-bit integers for faster search (O(n)) +
-// replace (O(1))
-// 	- Maximum possible length of the string is computed and strings going over that length
-// are pruned
-// 	- Strings that cannot possibly turn into the target string after any seqeuence of rules are
-// discarded
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
+using namespace __gnu_pbds;
 
 using ull = unsigned long long;
 using uint128 = unsigned __int128;
@@ -96,7 +86,15 @@ string decode(uint128 s) {
 }
 
 struct UInt128Hash {
-	ull operator()(uint128 i) const { return hash<ull>{}(i) ^ hash<ull>{}(i >> 64); }
+	ull hash_ull(ull x) const {
+		static const int R = chrono::steady_clock::now().time_since_epoch().count();
+		x += 0x9e3779b97f4a7c15;
+		x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+		x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+		return x ^ (x >> 31) ^ R;
+	}
+
+	ull operator()(uint128 i) const { return hash_ull(i) * 31 + hash_ull(i >> 64); }
 };
 
 bool ok[70][70];
@@ -204,7 +202,7 @@ int main() {
 	}
 
 	// meet in the middle
-	unordered_map<uint128, HistoryNode *, UInt128Hash> at_middle;
+	gp_hash_table<uint128, HistoryNode *, UInt128Hash> at_middle;
 	int forward_steps = target_step >> 1;
 	search(forward_steps, [&](pair<uint128, HistoryNode *> state) {
 		at_middle[state.first] = state.second;

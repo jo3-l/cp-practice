@@ -2,10 +2,8 @@
 
 using namespace std;
 
-struct FenwickTree {
-	vector<int> bit;
-	int n;
-
+class FenwickTree {
+public:
 	FenwickTree(vector<int> xs) : n(xs.size() + 1), bit(n, 0) {
 		for (int i = 0; i < xs.size(); i++) add(i, xs[i]);
 	}
@@ -21,4 +19,8 @@ struct FenwickTree {
 	}
 
 	int query(int i, int j) { return query(j) - query(i - 1); }
+
+private:
+	vector<int> bit;
+	int n;
 };
