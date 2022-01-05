@@ -12,7 +12,7 @@
 
 > A place to store my solutions to the CCC and various other collections of CP problems, written primarily in Java 8 and C++ 14.<br>
 
-You may be interested in a collection of [annotated CCC solutions](./annotated-ccc-solutions/README) that I've written over time.
+You may be interested in a collection of [annotated CCC solutions](./annotated-ccc-solutions/README.md) that I've written over time.
 
 ## Author
 
