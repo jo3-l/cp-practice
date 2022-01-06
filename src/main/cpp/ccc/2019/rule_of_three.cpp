@@ -1,13 +1,16 @@
+#pragma GCC target("popcnt")
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
+using namespace __gnu_pbds;
 using ull = unsigned long long;
 
 template <typename V> struct AbStr {
 	AbStr(V val_, int len_) : val(val_), len(len_) {}
-	AbStr() : val(0), len(0) {}
+	AbStr() = default;
 
-	template <typename U> AbStr<V> replace(int pos, int del_len, AbStr<U> repl) {
+	template <typename U> AbStr<V> replace(int pos, int del_len, AbStr<U> repl) const {
 		V left = val & (((V)1 << pos) - 1);
 		V right = val >> pos;
 		right >>= del_len;
@@ -16,8 +19,15 @@ template <typename V> struct AbStr {
 		return {left | (right << pos), len - del_len + repl.len};
 	}
 
-	int a_count() { return len - b_count(); }
-	int b_count() { return __builtin_popcountll(val); }
+	int a_count() const { return len - b_count(); }
+	int b_count() const { return __builtin_popcountll(val); }
+
+	void swap(AbStr &other) {
+		::swap(other.val, val);
+		::swap(other.len, len);
+	}
+
+	bool operator==(AbStr const &other) const { return val == other.val && len == other.len; }
 
 	V val;
 	int len;
@@ -38,8 +48,17 @@ template <typename U> istream &operator>>(istream &is, AbStr<U> &s) {
 struct Rule {
 	int a_delta() { return to.a_count() - from.a_count(); }
 	int b_delta() { return to.b_count() - from.b_count(); }
+	int len_delta() { return to.len - from.len; }
+
+	void reverse() { from.swap(to); }
+	void swap(Rule &other) {
+		::swap(other.from, from);
+		::swap(other.to, to);
+		::swap(other.num, num);
+	}
 
 	AbStr<int> from, to;
+	int num;
 };
 Rule rules[3];
 
@@ -70,10 +89,17 @@ void calc_ok_ab_counts() {
 	}
 }
 
-bool search(int step, AbStr<ull> cur) {
-	if (step == max_step) return cur.val == final_str.val;
-	for (int rule_num = 0; rule_num < 3; rule_num++) {
-		Rule &rule = rules[rule_num];
+struct Hash {
+	ull operator()(AbStr<ull> const &x) const { return x.val * 31 + x.len; }
+};
+gp_hash_table<AbStr<ull>, null_type, Hash> seen[20];
+
+bool search(int step, AbStr<ull> const &cur) {
+	if (step == max_step) return cur == final_str;
+	if (seen[step].find(cur) != seen[step].end()) return false;
+	seen[step].insert(cur);
+
+	for (Rule &rule : rules) {
 		int a_after_app = cur.a_count() + rule.a_delta(), b_after_app = cur.b_count() + rule.b_delta();
 		int len_after_app = cur.len - rule.from.len + rule.to.len;
 		if (a_after_app < 0 || b_after_app < 0 || len_after_app < 0 || len_after_app > 64 ||
@@ -83,13 +109,19 @@ bool search(int step, AbStr<ull> cur) {
 
 		int mask = (1 << rule.from.len) - 1;
 		ull rest = cur.val;
+		vector<int> indices;
 		for (int i = 0; i <= cur.len - rule.from.len; i++, rest >>= 1) {
-			if ((rest & mask) == rule.from.val) {
-				hist[step + 1].rule_num = rule_num;
-				hist[step + 1].pos = i;
-				bool solved = search(step + 1, cur.replace(i, rule.from.len, rule.to));
-				if (solved) return true;
-			}
+			if ((rest & mask) == rule.from.val) indices.push_back(i);
+		}
+
+		// prefer applying rules near the middle as opposed to the end. derived empirically via generating thousands of test cases.
+		int mid = cur.len / 2;
+		sort(indices.begin(), indices.end(), [&](int a, int b) { return abs(a - mid) < abs(b - mid); });
+		for (int i : indices) {
+			hist[step].rule_num = rule.num;
+			hist[step].pos = i;
+			bool solved = search(step + 1, cur.replace(i, rule.from.len, rule.to));
+			if (solved) return true;
 		}
 	}
 	return false;
@@ -100,18 +132,34 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	for (int rule_num = 0; rule_num < 3; rule_num++) cin >> rules[rule_num].from >> rules[rule_num].to;
+	for (int i = 0; i < 3; i++) {
+		rules[i].num = i + 1;
+		cin >> rules[i].from >> rules[i].to;
+	}
 	cin >> max_step >> initial_str >> final_str;
+
+	// start with the longer string (i.e., work backward if needed)
+	bool reversed = initial_str.len < final_str.len;
+	if (reversed) {
+		initial_str.swap(final_str);
+		for (Rule &rule : rules) rule.reverse();
+	}
 
 	calc_ok_ab_counts();
 	bool has_solution = search(0, initial_str);
 	assert(has_solution);
 
+	if (reversed) {
+		initial_str.swap(final_str);
+		for (Rule &rule : rules) rule.reverse();
+		reverse(begin(hist), begin(hist) + max_step);
+	}
+
 	AbStr<ull> cur = initial_str;
-	for (int i = 1; i <= max_step; i++) {
-		Rule &rule = rules[hist[i].rule_num];
+	for (int i = 0; i < max_step; i++) {
+		Rule &rule = *find_if(begin(rules), end(rules), [&](Rule &r) { return r.num == hist[i].rule_num; });
 		cur = cur.replace(hist[i].pos, rule.from.len, rule.to);
-		cout << hist[i].rule_num + 1 << ' ' << hist[i].pos + 1 << ' ' << cur << '\n';
+		cout << rule.num << ' ' << hist[i].pos + 1 << ' ' << cur << '\n';
 	}
 
 	return 0;
