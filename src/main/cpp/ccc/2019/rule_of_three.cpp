@@ -1,240 +1,119 @@
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
-using namespace __gnu_pbds;
-
 using ull = unsigned long long;
-using uint128 = unsigned __int128;
 
-struct HistoryNode {
-	int rule, pos; // zero-based
-	HistoryNode *prev;
+template <typename V> struct AbStr {
+	AbStr(V val_, int len_) : val(val_), len(len_) {}
+	AbStr() : val(0), len(0) {}
+
+	template <typename U> AbStr<V> replace(int pos, int del_len, AbStr<U> repl) {
+		V left = val & (((V)1 << pos) - 1);
+		V right = val >> pos;
+		right >>= del_len;
+		right <<= repl.len;
+		right |= repl.val;
+		return {left | (right << pos), len - del_len + repl.len};
+	}
+
+	int a_count() { return len - b_count(); }
+	int b_count() { return __builtin_popcountll(val); }
+
+	V val;
+	int len;
 };
 
-template <typename T, bool WithLenBit> T encode(string &s) {
-	T bits = 0, k = 1;
-	for (char c : s) {
-		if (c == 'B') bits |= k;
-		k <<= 1;
-	}
-	if (WithLenBit) bits |= k;
-	return bits;
+template <typename U> ostream &operator<<(ostream &os, AbStr<U> const &s) {
+	for (int i = 0; i < s.len; i++) os << ((s.val & ((U)1 << i)) ? 'B' : 'A');
+	return os;
+}
+template <typename U> istream &operator>>(istream &is, AbStr<U> &s) {
+	string in;
+	is >> in;
+	s.len = in.size();
+	for (int i = 0; i < in.size(); i++) s.val |= (U)(in[i] == 'B') << i;
+	return is;
 }
 
 struct Rule {
-	string from, to;
-	int from_enc, to_enc;
-	int fwd_a_delta, fwd_b_delta;
-	int rev_a_delta, rev_b_delta;
+	int a_delta() { return to.a_count() - from.a_count(); }
+	int b_delta() { return to.b_count() - from.b_count(); }
 
-	void init() {
-		from_enc = encode<int, false>(from);
-		to_enc = encode<int, false>(to);
-		fwd_a_delta = (int)count(to.begin(), to.end(), 'A') - count(from.begin(), from.end(), 'A');
-		fwd_b_delta = (int)count(to.begin(), to.end(), 'B') - count(from.begin(), from.end(), 'B');
-		rev_a_delta = (int)count(from.begin(), from.end(), 'A') - count(to.begin(), to.end(), 'A');
-		rev_b_delta = (int)count(from.begin(), from.end(), 'B') - count(to.begin(), to.end(), 'B');
-	}
-
-	uint128 apply(uint128 s, int pos) {
-		uint128 left = s & (((uint128)1 << pos) - 1);
-		uint128 right = s >> pos;
-		right >>= from.size();
-		right <<= to.size();
-		right |= to_enc;
-		return left | (right << pos);
-	}
-
-	void flip() {
-		swap(from, to);
-		swap(from_enc, to_enc);
-		swap(fwd_a_delta, rev_a_delta);
-		swap(fwd_b_delta, rev_b_delta);
-	}
+	AbStr<int> from, to;
 };
-
 Rule rules[3];
-int target_step;
-string initial_str, final_str;
 
-int max_len;
-
-int get_len(uint128 s) {
-	for (int i = max_len; i >= 1; i--) {
-		if (s & ((uint128)1 << i)) return i;
-	}
-	return 0;
+struct Substitution {
+	int rule_num, pos;
 };
+Substitution hist[20];
 
-int count_b(uint128 s) { return __builtin_popcountll(s >> 64) + __builtin_popcountll(s) - 1; }
+int max_step;
+AbStr<ull> initial_str, final_str;
 
-void upd_max_len() {
-	int max_diff = -0x3f3f3f;
-	for (Rule r : rules) {
-		max_diff = max(max_diff, (int)r.to.size() - (int)r.from.size());
-	}
-	max_len = initial_str.size() + max_diff * target_step;
-}
-
-string decode(uint128 s) {
-	int len = get_len(s);
-	string decoded(len, 'A');
-	for (int i = 0; i < len; i++)
-		if (s & ((uint128)1 << i)) decoded[i] = 'B';
-	return decoded;
-}
-
-struct UInt128Hash {
-	ull hash_ull(ull x) const {
-		static const int R = chrono::steady_clock::now().time_since_epoch().count();
-		x += 0x9e3779b97f4a7c15;
-		x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-		x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-		return x ^ (x >> 31) ^ R;
-	}
-
-	ull operator()(uint128 i) const { return hash_ull(i) * 31 + hash_ull(i >> 64); }
-};
-
-bool ok[70][70];
-void upd_ok(int steps) {
-	int final_a = count(final_str.begin(), final_str.end(), 'A'), final_b = count(final_str.begin(), final_str.end(), 'B');
-	memset(ok, false, sizeof(ok));
-	for (int r0 = 0; r0 <= steps; r0++) {
-		for (int r1 = 0; r0 + r1 <= steps; r1++) {
-			int r2 = steps - r0 - r1;
-			int a = final_a + rules[0].rev_a_delta * r0 + rules[1].rev_a_delta * r1 + rules[2].rev_a_delta * r2;
-			int b = final_b + rules[0].rev_b_delta * r0 + rules[1].rev_b_delta * r1 + rules[2].rev_b_delta * r2;
-			if (0 <= a && a < max_len && 0 <= b && a < max_len) {
-				ok[a][b] = true;
-			}
-		}
-	}
-}
-
-deque<pair<uint128, HistoryNode *>> q;
-unordered_set<uint128, UInt128Hash> seen;
-
-template <typename F> void search(int max_steps, F f) {
-	uint128 initial_enc = encode<uint128, true>(initial_str);
-	q.push_back({initial_enc, nullptr});
-	seen.insert(initial_enc);
-	int cur_step = 1;
-	while (!q.empty()) {
-		upd_ok(target_step - cur_step);
-		int sz = q.size();
-		while (sz--) {
-			pair<uint128, HistoryNode *> state = q.front();
-			int len = get_len(state.first);
-			q.pop_front();
-			for (int i = 0; i < 3; i++) {
-				Rule &r = rules[i];
-				int max_start_pos = len - r.from.size();
-				if (max_start_pos < 0) continue;
-
-				int mask = (1 << r.from.size()) - 1;
-				int rest = state.first;
-				for (int j = 0; j <= max_start_pos; j++, rest >>= 1) {
-					if ((rest & mask) != r.from_enc) continue;
-
-					int new_len = len - r.from.size() + r.to.size();
-					if (new_len > max_len) continue;
-
-					uint128 applied = r.apply(state.first, j);
-					if (seen.count(applied)) continue;
-
-					int b = count_b(applied), a = new_len - b;
-					if (!ok[a][b]) continue;
-
-					seen.insert(applied);
-					HistoryNode *node = new HistoryNode{i, j, state.second};
-					pair<uint128, HistoryNode *> next_state = {applied, node};
-					if (cur_step == max_steps) {
-						bool all_done = f(next_state);
-						if (all_done) goto done;
-					} else {
-						q.push_back(next_state);
-					}
+bool is_ok_ab_count[20][70][70];
+void calc_ok_ab_counts() {
+	for (int remaining_steps = 0; remaining_steps <= max_step; remaining_steps++) {
+		int step = max_step - remaining_steps;
+		for (int r1 = 0; r1 <= remaining_steps; r1++) {
+			for (int r2 = 0; r1 + r2 <= remaining_steps; r2++) {
+				int r3 = remaining_steps - r1 - r2;
+				int cum_a_delta = rules[0].a_delta() * r1 + rules[1].a_delta() * r2 + rules[2].a_delta() * r3;
+				int cum_b_delta = rules[0].b_delta() * r1 + rules[1].b_delta() * r2 + rules[2].b_delta() * r3;
+				int expected_a = final_str.a_count() - cum_a_delta;
+				int expected_b = final_str.b_count() - cum_b_delta;
+				if (0 <= expected_a && expected_a < 70 && 0 <= expected_b && expected_b < 70) {
+					is_ok_ab_count[step][expected_a][expected_b] = true;
 				}
 			}
 		}
-
-		cur_step++;
-		seen.clear();
 	}
+}
 
-done:
-	q.clear();
+bool search(int step, AbStr<ull> cur) {
+	if (step == max_step) return cur.val == final_str.val;
+	for (int rule_num = 0; rule_num < 3; rule_num++) {
+		Rule &rule = rules[rule_num];
+		int a_after_app = cur.a_count() + rule.a_delta(), b_after_app = cur.b_count() + rule.b_delta();
+		int len_after_app = cur.len - rule.from.len + rule.to.len;
+		if (a_after_app < 0 || b_after_app < 0 || len_after_app < 0 || len_after_app > 64 ||
+		    !is_ok_ab_count[step + 1][a_after_app][b_after_app]) {
+			continue;
+		}
+
+		int mask = (1 << rule.from.len) - 1;
+		ull rest = cur.val;
+		vector<int> found_at;
+		for (int i = 0; i <= cur.len - rule.from.len; i++, rest >>= 1) {
+			if ((rest & mask) == rule.from.val) {
+				hist[step + 1].rule_num = rule_num;
+				hist[step + 1].pos = i;
+				bool solved = search(step + 1, cur.replace(i, rule.from.len, rule.to));
+				if (solved) return true;
+			}
+		}
+	}
+	return false;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
-	cin >> rules[0].from >> rules[0].to >> rules[1].from >> rules[1].to >> rules[2].from >> rules[2].to >> target_step >> initial_str >>
-	    final_str;
-	for (Rule &r : rules) r.init();
-	upd_max_len();
 
-	uint128 final_enc = encode<uint128, true>(final_str);
-	if (target_step <= 8) {
-		search(target_step, [&](pair<uint128, HistoryNode *> state) {
-			if (state.first == final_enc) {
-				// found last one
-				vector<HistoryNode *> nodes;
-				while (state.second) {
-					nodes.push_back(state.second);
-					state.second = state.second->prev;
-				}
-				reverse(nodes.begin(), nodes.end());
-				uint128 cur = encode<uint128, true>(initial_str);
-				for (auto node : nodes) {
-					cur = rules[node->rule].apply(cur, node->pos);
-					cout << (node->rule + 1) << ' ' << (node->pos + 1) << ' ' << decode(cur) << '\n';
-				}
+	for (int rule_num = 0; rule_num < 3; rule_num++) cin >> rules[rule_num].from >> rules[rule_num].to;
+	cin >> max_step >> initial_str >> final_str;
 
-				return true;
-			}
-			return false;
-		});
-		return 0;
+	calc_ok_ab_counts();
+	bool has_solution = search(0, initial_str);
+	assert(has_solution);
+
+	AbStr<ull> cur = initial_str;
+	for (int i = 1; i <= max_step; i++) {
+		Rule &rule = rules[hist[i].rule_num];
+		cur = cur.replace(hist[i].pos, rule.from.len, rule.to);
+		cout << hist[i].rule_num + 1 << ' ' << hist[i].pos + 1 << ' ' << cur << '\n';
 	}
-
-	// meet in the middle
-	gp_hash_table<uint128, HistoryNode *, UInt128Hash> at_middle;
-	int forward_steps = target_step >> 1;
-	search(forward_steps, [&](pair<uint128, HistoryNode *> state) {
-		at_middle[state.first] = state.second;
-		return false;
-	});
-
-	for (auto &r : rules) r.flip();
-	swap(initial_str, final_str);
-	search(target_step - forward_steps, [&](pair<uint128, HistoryNode *> state) {
-		auto it = at_middle.find(state.first);
-		if (it == at_middle.end()) return false;
-		for (auto &r : rules) r.flip();
-		swap(initial_str, final_str);
-
-		HistoryNode *forward_node = it->second;
-		vector<HistoryNode *> nodes;
-		while (forward_node) {
-			nodes.push_back(forward_node);
-			forward_node = forward_node->prev;
-		}
-		reverse(nodes.begin(), nodes.end());
-		while (state.second) {
-			nodes.push_back(state.second);
-			state.second = state.second->prev;
-		}
-		uint128 cur = encode<uint128, true>(initial_str);
-		for (auto node : nodes) {
-			cur = rules[node->rule].apply(cur, node->pos);
-			cout << (node->rule + 1) << ' ' << (node->pos + 1) << ' ' << decode(cur) << '\n';
-		}
-		return true;
-	});
 
 	return 0;
 }
