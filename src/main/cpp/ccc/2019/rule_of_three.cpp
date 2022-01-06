@@ -52,8 +52,8 @@ struct Rule {
 
 	void reverse() { from.swap(to); }
 	void swap(Rule &other) {
-		::swap(other.from, from);
-		::swap(other.to, to);
+		from.swap(other.from);
+		to.swap(other.to);
 		::swap(other.num, num);
 	}
 
@@ -114,7 +114,7 @@ bool search(int step, AbStr<ull> const &cur) {
 			if ((rest & mask) == rule.from.val) indices.push_back(i);
 		}
 
-		// prefer applying rules near the middle as opposed to the end. derived empirically via generating thousands of test cases.
+		// prefer applying rules near the middle as opposed to the end
 		int mid = cur.len / 2;
 		sort(indices.begin(), indices.end(), [&](int a, int b) { return abs(a - mid) < abs(b - mid); });
 		for (int i : indices) {
