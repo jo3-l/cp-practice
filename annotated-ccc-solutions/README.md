@@ -11,6 +11,4 @@ Unofficial editorials for CCC problems that I've personally solved and found int
 
 **2020**
 
-- [J2 - Epidemiology](./2020/epidemiology.md)
-  - Note that the editorial for this problem covers an approach which is far beyond the expected solution and is thus only of theoretical interest.
 - [J5 / S2 - Escape Room](./2020/escape-room.md)
