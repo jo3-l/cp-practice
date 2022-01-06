@@ -83,7 +83,6 @@ bool search(int step, AbStr<ull> cur) {
 
 		int mask = (1 << rule.from.len) - 1;
 		ull rest = cur.val;
-		vector<int> found_at;
 		for (int i = 0; i <= cur.len - rule.from.len; i++, rest >>= 1) {
 			if ((rest & mask) == rule.from.val) {
 				hist[step + 1].rule_num = rule_num;
