@@ -12,3 +12,8 @@ Unofficial editorials for CCC problems that I've personally solved and found int
 **2020**
 
 - [J5 / S2 - Escape Room](./2020/escape-room.md)
+
+**2019**
+
+- [J5 - Rule of Three](./2019/rule-of-three.md)
+  - Includes some tips for solving the last subtask on DMOJ.
