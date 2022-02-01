@@ -42,8 +42,7 @@ int main() {
 	if (j != n - 1) {
 		cout << "Disconnected Graph" << '\n';
 	} else {
-		for (int i = 0; i < n - 1; i++)
-			cout << used[i] << '\n';
+		for (int i = 0; i < n - 1; i++) cout << used[i] << '\n';
 	}
 
 	return 0;
