@@ -1,7 +1,5 @@
 {
   "code-runner.executorMap": {
-    "cpp": "cd $dir && g++ $fileName -O2 -o $fileNameWithoutExt.out -g -fsanitize=address,undefined -Wall -Wextra -Wmisleading-indentation -Wmaybe-uninitialized -Wshadow -pedantic -std=c++17 -Wformat=2 -Wfloat-equal -Wsign-conversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond && $dir$fileNameWithoutExt.out"
-  },
-  "code-runner.runInTerminal": true,
-  "python.formatting.provider": "black"
+    "cpp": "clear && cd $dir && g++ $fileName -O2 -o $fileNameWithoutExt.out -g -fsanitize=address,undefined -Wall -Wextra -Wmisleading-indentation -Wmaybe-uninitialized -Wshadow -pedantic -std=c++17 -Wformat=2 -Wfloat-equal -Wsign-conversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond && echo \"done compiling\" && $dir$fileNameWithoutExt.out"
+  }
 }
