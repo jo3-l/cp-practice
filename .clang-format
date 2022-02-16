@@ -1,0 +1,13 @@
+BasedOnStyle: LLVM
+AllowShortFunctionsOnASingleLine: Empty
+IndentWidth: 8
+UseTab: Always
+AccessModifierOffset: -8
+AllowShortLoopsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: true
+AlignEscapedNewlines: DontAlign
+AlignTrailingComments: false
+AlwaysBreakTemplateDeclarations: Yes
+IndentCaseLabels: true
+ColumnLimit: 140
+PointerAlignment: Left
