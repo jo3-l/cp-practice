@@ -1,72 +1,92 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
+using namespace __gnu_pbds;
 
+using ll = long long;
 using ull = unsigned long long;
 
-template <typename T1, typename T2> struct PairHash {
-	ull operator()(pair<T1, T2> const &p) const {
+struct CustomHash {
+	ull operator()(pair<ll, ll> x) const {
+		return hash_ull(x.first) * 31 + hash_ull(x.second);
+	}
+
+	ull hash_ull(ull x) const {
+		// http://xorshift.di.unimi.it/splitmix64.c
 		static const ull R = chrono::steady_clock::now().time_since_epoch().count();
-		return hash<T1>{}(p.first ^ R ^ (p.first >> 16)) ^ (hash<T2>{}(p.second ^ R ^ (p.first >> 16)) >> 1);
+		x += 0x9e3779b97f4a7c15;
+		x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+		x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+		return x ^ (x >> 31) ^ R;
 	}
 };
+gp_hash_table<pair<ull, ull>, null_type, CustomHash> seen;
 
-constexpr int P = 31;
-constexpr int Q = 101;
-constexpr int Z = 26;
+constexpr ll P = 31;
+constexpr ll Q = 47;
+constexpr ll MOD = 1e9 + 7;
 
-int needle_freq[Z];
-int haystack_window_freq[Z];
+int needle_freq[26];
+int window_freq[26];
+
+template <ll Pow>
+struct PolyHash {
+	PolyHash(int len) : v(), max_pow(1) {
+		for (int i = 1; i < len; i++) max_pow = (max_pow * Pow) % MOD;
+	}
+
+	void push_back(char c) {
+		v = (v * Pow) % MOD;
+		v = (v + ll(c - 'a')) % MOD;
+	}
+
+	void pop_front(char c) {
+		v = (v - ll(c - 'a') * max_pow) % MOD;
+		if (v < 0) v += MOD;
+	}
+
+	ll v;
+	ll max_pow;
+};
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
+	cin.exceptions(cin.failbit);
 
 	string needle, haystack;
 	cin >> needle >> haystack;
 	if (needle.size() > haystack.size()) {
-		cout << 0 << '\n';
+		cout << "0\n";
 		return 0;
 	}
 
-	unordered_set<pair<int, int>, PairHash<int, int>> seen;
-	ull needle_hsh_p = 0;
-	ull needle_hsh_q = 0;
-	ull haystack_window_hsh_p = 0;
-	ull haystack_window_hsh_q = 0;
-	ull p_max = 1;
-	ull q_max = 1;
-	for (int i = 0; i < needle.size(); i++) {
-		int nc = needle[i] - 'a';
-		needle_hsh_p = (needle_hsh_p * P) + nc;
-		needle_hsh_q = (needle_hsh_q * Q) + nc;
-		needle_freq[nc]++;
+	int window_sz = needle.size();
+	PolyHash<P> needle_hash_p(window_sz), window_hash_p(window_sz);
+	PolyHash<Q> needle_hash_q(window_sz), window_hash_q(window_sz);
+	for (int i = 0; i < window_sz; i++) {
+		needle_hash_p.push_back(needle[i]);
+		needle_hash_q.push_back(needle[i]);
+		needle_freq[needle[i] - 'a']++;
 
-		int hc = haystack[i] - 'a';
-		haystack_window_hsh_p = (haystack_window_hsh_p * P) + hc;
-		haystack_window_hsh_q = (haystack_window_hsh_q * Q) + hc;
-		haystack_window_freq[hc]++;
-
-		if (i > 0) {
-			p_max *= P;
-			q_max *= Q;
-		}
+		window_hash_p.push_back(haystack[i]);
+		window_hash_q.push_back(haystack[i]);
+		window_freq[haystack[i] - 'a']++;
 	}
 
-	auto check = [&]() {
-		if (memcmp(needle_freq, haystack_window_freq, sizeof(needle_freq)) == 0)
-			seen.insert({haystack_window_hsh_p, haystack_window_hsh_q});
-	};
-	check();
-	for (int i = 1, j = needle.size(); j < haystack.size(); i++, j++) {
-		int pc = haystack[i - 1] - 'a';
-		int c = haystack[j] - 'a';
-		haystack_window_hsh_p = (haystack_window_hsh_p - pc * p_max) * P + c;
-		haystack_window_hsh_q = (haystack_window_hsh_q - pc * q_max) * Q + c;
-		haystack_window_freq[c]++;
-		haystack_window_freq[pc]--;
-		check();
+	if (memcmp(needle_freq, window_freq, sizeof(needle_freq)) == 0) seen.insert({window_hash_p.v, window_hash_q.v});
+	for (int i = 0, j = window_sz; j < haystack.size(); i++, j++) {
+		window_hash_p.pop_front(haystack[i]);
+		window_hash_q.pop_front(haystack[i]);
+		window_freq[haystack[i] - 'a']--;
+
+		window_hash_p.push_back(haystack[j]);
+		window_hash_q.push_back(haystack[j]);
+		window_freq[haystack[j] - 'a']++;
+
+		if (memcmp(needle_freq, window_freq, sizeof(needle_freq)) == 0) seen.insert({window_hash_p.v, window_hash_q.v});
 	}
 
 	cout << seen.size() << '\n';

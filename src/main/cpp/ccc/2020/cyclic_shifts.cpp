@@ -1,58 +1,47 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
+using namespace __gnu_pbds;
+using ll = long long;
 
-using ull = unsigned long long;
-
-struct UllPairHash {
-	ull operator()(pair<ull, ull> const &p) const { return hash<ull>{}(p.first) ^ hash<ull>{}(p.second) >> 2; }
-};
-
-const int Q = 101;
-const int P = 257;
-
-bool solve(string &s, string &t) {
-	if (t.size() < s.size()) return false;
-	unordered_set<pair<ull, ull>, UllPairHash> target_hashes;
-	ull hash_q = 0, hash_p = 0;
-	ull target_hash_q = 0, target_hash_p = 0;
-	ull max_q = 1, max_p = 1;
-	for (int i = 0; i < s.size(); i++) {
-		target_hash_p = target_hash_p * P + t[i] - 'A';
-		target_hash_q = target_hash_q * Q + t[i] - 'A';
-		hash_q = hash_q * Q + s[i] - 'A';
-		hash_p = hash_p * P + s[i] - 'A';
-		if (i > 0) {
-			max_p *= P;
-			max_q *= Q;
-		}
-	}
-	target_hashes.insert({target_hash_p, target_hash_q});
-	if (target_hash_p == hash_p && target_hash_q == hash_q) return true;
-	for (int i = 1, j = s.size(); j < t.size(); i++, j++) {
-		target_hash_p = (target_hash_p - (t[i - 1] - 'A') * max_p) * P + t[j] - 'A';
-		target_hash_q = (target_hash_q - (t[i - 1] - 'A') * max_q) * Q + t[j] - 'A';
-		if (target_hash_p == hash_p && target_hash_q == hash_q) return true;
-		target_hashes.insert({target_hash_p, target_hash_q});
-	}
-
-	for (int i = 0; i < s.size(); i++) {
-		hash_p = (hash_p - (s[i] - 'A') * max_p) * P + s[i] - 'A';
-		hash_q = (hash_q - (s[i] - 'A') * max_q) * Q + s[i] - 'A';
-		if (target_hashes.count({hash_p, hash_q})) return true;
-	}
-
-	return false;
-}
+constexpr ll MOD = (1LL << 55) + 3;
+constexpr ll P = 31;
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
-	cout.tie(nullptr);
 
-	string t;
-	string s;
+	string t, s;
 	cin >> t >> s;
-	cout << (solve(s, t) ? "yes" : "no") << endl;
+	gp_hash_table<ll, null_type> t_hashes;
+	if (t.size() < s.size()) {
+		cout << "no\n";
+		return 0;
+	}
+	ll t_hash = 0, s_hash = 0;
+	ll p_pow = 1;
+	for (int i = 0; i < s.size(); i++) {
+		t_hash = (((t_hash * P) % MOD) + (t[i] - 'A')) % MOD;
+		s_hash = (((s_hash * P) % MOD) + (s[i] - 'A')) % MOD;
+		if (i > 0) p_pow = (p_pow * P) % MOD;
+	}
+	t_hashes.insert(t_hash);
+	for (int lo = 0, hi = s.size(); hi < t.size(); lo++, hi++) {
+		t_hash = (t_hash - ((p_pow * (t[lo] - 'A')) % MOD)) % MOD;
+		if (t_hash < 0) t_hash += MOD;
+		t_hash = ((t_hash * P) % MOD + (t[hi] - 'A')) % MOD;
+		t_hashes.insert(t_hash);
+	}
+	for (int i = 0; i < s.size(); i++) {
+		s_hash = (s_hash - ((p_pow * (s[i] - 'A')) % MOD)) % MOD;
+		if (s_hash < 0) s_hash += MOD;
+		s_hash = (((s_hash * P) % MOD) + (s[i] - 'A')) % MOD;
+		if (t_hashes.find(s_hash) != t_hashes.end()) {
+			cout << "yes\n";
+			return 0;
+		}
+	}
+	cout << "no\n";
 	return 0;
 }
