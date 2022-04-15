@@ -4,7 +4,7 @@ using namespace std;
 
 constexpr int MN = 18;
 int path_len[MN][MN]; // -1 if not set
-int dp[1 << MN][MN];  // state: {vertices, end}, -1 if not possible
+int dp[1 << MN][MN]; // state: {vertices, end}, -1 if not possible
 
 int main() {
 	ios_base::sync_with_stdio(false);

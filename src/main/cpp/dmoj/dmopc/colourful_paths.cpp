@@ -16,7 +16,7 @@ int main() {
 	int n, m;
 	cin >> n >> m;
 	vector<pair<int, int>> edges(m);
-	for (auto &[from, to] : edges) {
+	for (auto& [from, to] : edges) {
 		cin >> from >> to;
 		adj[from].push_back(to);
 		adj[to].push_back(from);

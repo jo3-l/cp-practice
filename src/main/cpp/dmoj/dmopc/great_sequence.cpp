@@ -9,7 +9,7 @@ int pfs[MN];
 bool check(int a, int b, int x) {
 	auto it = occurrences.find(x);
 	if (it == occurrences.end()) return false;
-	auto &inds = it->second;
+	auto& inds = it->second;
 	auto inds_it = lower_bound(inds.begin(), inds.end(), a);
 	if (inds_it == inds.end()) return false;
 	return *inds_it <= b;
@@ -34,7 +34,7 @@ int main() {
 		auto check = [&](int v) {
 			auto it = occurrences.find(v);
 			if (it == occurrences.end()) return false;
-			auto &inds = it->second;
+			auto& inds = it->second;
 			auto inds_it = lower_bound(inds.begin(), inds.end(), x);
 			if (inds_it == inds.end()) return false;
 			return *inds_it <= y;

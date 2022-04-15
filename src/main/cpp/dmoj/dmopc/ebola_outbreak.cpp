@@ -32,7 +32,7 @@ int main() {
 		int k;
 		cin >> k;
 		students[c].resize(k);
-		for (int &s : students[c]) {
+		for (int& s : students[c]) {
 			cin >> s;
 			classes[s].push_back(c);
 		}
