@@ -17,7 +17,7 @@ int main() {
 		cin >> t >> k;
 		int offset = 0;
 		for (int n = 1; n <= k; n++) {
-			int p = s.find(t, offset);
+			size_t p = s.find(t, offset);
 			if (p == string::npos) {
 				offset = -1;
 				break;

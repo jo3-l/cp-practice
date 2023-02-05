@@ -10,7 +10,7 @@ bool is_monkey_lang_word(int i, int j) {
 	auto check_optional_n = [&](int k) { return k > j || (s[k] == 'N' && is_monkey_lang_word(k + 1, j)); };
 	if (s[i] == 'A') return check_optional_n(i + 1);
 	if (s[i] != 'B') return false;
-	for (int p = s.find('S', i + 1); p != string::npos; p = s.find('S', p + 1))
+	for (size_t p = s.find('S', i + 1); p != string::npos; p = s.find('S', p + 1))
 		if (is_monkey_lang_word(i + 1, p - 1) && check_optional_n(p + 1)) return true;
 	return false;
 }
@@ -20,8 +20,7 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	for (cin >> s; s != "X"; cin >> s)
-		cout << (is_monkey_lang_word(0, (int)s.size() - 1) ? "YES" : "NO") << '\n';
+	for (cin >> s; s != "X"; cin >> s) cout << (is_monkey_lang_word(0, (int)s.size() - 1) ? "YES" : "NO") << '\n';
 
 	return 0;
 }
